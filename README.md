@@ -84,7 +84,7 @@ To process the results of the experiment, run:
 **Note:**
 Please, change the value of variable `N_SAMPLES` in plotting-memoization.py to the value fixed in ./exp-memoization.sh
 
-##Case of study
+## Case of study
 This experiment shows a case of study of the application of our tool for detecting misclassified input sequences in a Recurrent Neural Network (RNN).
 We use our algorithm in combination with the procedure that extracts a WFA from a given RNN [4] to estimate the error between the extracted WFA and the WFA that describes the specification of the RNN over a bounded-length set of words.
 This yields to an estimation of the error together with an evidence of why the network is not properly approximating its specification.
