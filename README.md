@@ -10,7 +10,9 @@ For the lookup table implementation we use uthash.h [2], a header file written i
 
 
 [1] *The GNU Multiple Precision Arithmetic Library. 1991. GNU Project. (1991). Retrieved January 28, 2020 from gmplib.org.*
+
 [2] *Troy D. Hanson and Arthur O’Dwyer. 2006. Uthash. (2006). Retrieved January 28, 2020 from https://troydhanson.github.io/uthash/*
+
 [3] *Azaria Paz. 1971. Introduction to Probabilistic Automata (Computer Science and Applied Mathematics). Academic Press, Inc., Orlando, FL, USA.*
 
 # Folders
