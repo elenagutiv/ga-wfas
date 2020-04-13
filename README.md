@@ -1,6 +1,6 @@
 # Genetic Algorithm for the Weight Maximization Problem on Weighted Automata
 We propose a **genetic-algorithm-based metaheuristic** to approximate the so-called *Weighted Maximization Problem (WMP)*, i.e., the problem of computing **the word with the highest weight** on a weighted automata with weights over the rationals.
-Since the WMP is an undecidable problem [3], we look at the problem that results from bounding length of the words in the search space by a fixed value k ≥ 1.
+Since the WMP is an undecidable problem [3], we look at the problem that results from bounding the length of the words in the search space by a fixed value k ≥ 1.
 We call the later problem the *Bounded Weight Maximization Problem (WBMP)*  and this is the question our algorithm approximates.
 
 Our algorithm is implemented in the C language. 
@@ -30,7 +30,7 @@ Broadly speaking, the algorithm takes as input a WFA matrix description and a po
 Further parameters relative to the genetic algorithm and experiment specification can be introduced in the right format by command line or using the header file inc/params.h
 
 # Experiments
-The following experiments can be carried out using our tool and the set of benchmarks in the folder tests.
+The following experiments can be carried out using our tool and the set of benchmarks *Random*, in the folder tests/newrandp/Random.
 For further details on these experiments you can read our work on this problem, which will be soon available online and referenced in this repository.
 
 ## Genetic Algorithm vs Random Search experiment
@@ -74,7 +74,7 @@ Write the following commands in the command line inside the folder  'ga-wfas'.
 - Fix variable `N_SAMPLES` in ./exp-memoization.sh as desired to repeat each execution `N_SAMPLES` times.
 - Beware of space on your machine. The size of each file generated is 10-100KB.  
 
-When the execution of /exp-memoization.sh finishes, results can be found in ga-wfas/res/ga/newrandp/exp-memoization/
+When the execution of exp-memoization.sh finishes, results can be found in ga-wfas/res/ga/newrandp/exp-memoization/
 There are 2 folders there: 
 - memo/
 - no-memo/
@@ -86,11 +86,39 @@ To process the results of the experiment, run:
 **Note:**
 Please, change the value of variable `N_SAMPLES` in plotting-memoization.py to the value fixed in ./exp-memoization.sh
 
-## Case of study
+## Examples with known maximum weight
+This experiments validates the performance of our algorithm by comparing its solution with the highest weight in the automaton.
+
+To do so, we simply select a subset of 9 benchmarks of Random, located in tests/newrandp/Random-bf-search, and we perform *exhaustive search* to solve the BWMP precisely.
+For this, we choose an appropiate length bound k, that makes this search feasible in a reasonable amount of time.
+This value will vary depending on the size of the alphabet of the input WFA.
+In addition, we run our algorithm on the same set of benchmarks and the same length bound k.
+
+To repeat this experiment, run the following commands in the folder 'ga-wfas'
+
+    make clean
+    make
+    make bf-search
+    cd scripts
+    ./exp-bf-search.sh
+
+ **Note:** 
+- Fix variable `N_SAMPLES` in ./exp-comparison.sh as desired to repeat each execution `N_SAMPLES` times.
+-Beware of the space on your machine.
+
+When the execution of exp-bf-search.sh finishes, results can be found in ga-wfas/res/ga/newrandp/exp-bf-search/
+
+To process the results of the experiment, run:
+
+    python plotting-bf-search.py
+**Note:**
+Please, change the value of variable `N_SAMPLES` in plotting-bf-search.py to the value fixed in ./exp-bf-search.sh
+
+# Case of study
 This experiment shows a case of study of the application of our tool for detecting misclassified input sequences in a Recurrent Neural Network (RNN).
 We use our algorithm in combination with the procedure that extracts a WFA from a given RNN [4] to estimate the error between the extracted WFA and the WFA that describes the specification of the RNN over a bounded-length set of words.
 This yields to an estimation of the error together with an evidence of why the network is not properly approximating its specification.
-Given a WFA A_R corresponding to the extracted WFA from a given RNN, and the specification of the RNN A_E over a bounded-length set of words, we compute the maximum between the weight of the highest-weighted word of (A_R - A_E) and (A_E - A_R).
+Given a WFA A_R (described in tests/paren/paren.txt) corresponding to the extracted WFA from a given RNN, and the specification of the RNN, the WFA A_E (described in tests/paren/spec.txt), we compute the maximum between the weight of the highest-weighted word of (A_R - A_E) and (A_E - A_R) over a bounded-length set of words.
 
 Write the following commands in the command line from the folder containing 'ga-wfas'
 
@@ -109,3 +137,11 @@ To process the data of the experiment to create a plot, run:
 The resulting plot (.pdf) is in plots/paren/exp-paren/
 
 [4] *Takamasa Okudono, Masaki Waga, Taro Sekiyama, and Ichiro Hasuo. 2019. Weighted Automata Extraction from Recurrent Neural Networks via Regression on State Spaces. AAAI 2020, to appear. CoRR abs/1904.02931 (2019).*
+
+# Updates
+- Only *one* compatibility try is performed. This value is fixed and non-modifiable.
+- TNU procedure removed
+TODO:
+- SNU property in params is ignores -> remove
+- remove deprecated SNUCrossover
+- Check SNU comp works

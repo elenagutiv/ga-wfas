@@ -17,11 +17,7 @@ int initialization(automata** aut, char* filename, char* filename2, FILE* fp_log
 	if(type == NULL){
 		printf("Error: introduce a valid parameter pcp or aut.\n");
 		return -1;
-	}else if(!strcmp(type, "pcp")){
-		initAutomataFromPCPInstance(filename, aut, fp_log, f1, f2);
-		return 0;
-
-	}else if(!strcmp(type, "aut")){
+	}else if(!strcmp(type, "comparison") || !strcmp(type, "memo") || !strcmp(type, "bf-search")){
 		initAutomataFromInput(filename, aut);
 		return 0;
 
@@ -666,9 +662,9 @@ int weightOfWord(mpq_t* weight, char* word, automata aut, hashedWord** hashTable
 	
 	mpq_set(*weight, _weight);
 
-	
-	fprintf(fp_times, "%s\t%.25lf\n", word, mpq_get_d(*weight));
-	
+	if(!strcmp(type, "comparison") || !strcmp(type, "difference") ){
+		fprintf(fp_times, "%s\t%.25lf\n", word, mpq_get_d(*weight));
+	}
 	
 	mpq_clear(_weight);
 	

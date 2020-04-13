@@ -25,10 +25,15 @@ $(BINDIR)/main: $(OBJFILES) obj/main.o
 $(BINDIR)/random-search: $(OBJFILES) obj/random-search.o
 	$(CC) -o $@ $^ $(CLIBS)
 
+$(BINDIR)/bf-search: $(OBJFILES) obj/bf-search.o
+	$(CC) -o $@ $^ $(CLIBS)
+
 main: 
 	make $(MAKEFLAG) $(BINDIR)/main
 random-search: 
 	make $(MAKEFLAG) $(BINDIR)/random-search	
+bf-search: 
+	make $(MAKEFLAG) $(BINDIR)/bf-search	
 
 
 .PHONY: clean

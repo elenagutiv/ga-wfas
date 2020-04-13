@@ -9,15 +9,10 @@
 int n_repeated = 0;
 
 int MAX_HASH_WORD_SIZE;
-int MAX_INIT_WORD_SIZE_OPT;
 int K;
 int COMPATIBLE_CROSSOVER_TRIES;
 
-int INIT_POP_OPT;
-int INIT_POP_RANDOM;
-
 FILE* fp_times;
-FILE* fp_memo;
 
 char* type; // 1: difference; 2: aut
 
@@ -35,40 +30,36 @@ int main(int argc, char** argv)
    char* input = argv[1];
    char* specification;
    if(!strcmp(type, "difference")){
-      specification = argv[8];
+      specification = argv[7];
    }else{
       specification = NULL;
    }
-   
-   char* memo_times = argv[10];
-   if(strcmp(memo_times, "none")){
-      fp_memo = (fopen(argv[10], "w"));
-   }
+   char* memo_times;
 
    double id = strtod(input + 20, NULL); // The beginning of the floating number rep. is at position 20
    double M = strtod(argv[3], NULL);
    MAX_HASH_WORD_SIZE = strtod(argv[4], NULL);
    
-   double C = strtod(argv[6], NULL);
+   double C = strtod(argv[5], NULL);
 
    K = (int)M;
    COMPATIBLE_CROSSOVER_TRIES = (int) C;
 
-   char* init_pop_type = argv[9];
-   if(!strcmp(init_pop_type, "rand")){
-      INIT_POP_RANDOM=1;
-      INIT_POP_OPT=0;
-   }else if (!strcmp(init_pop_type, "opt")){
-      INIT_POP_OPT=1;
-      INIT_POP_RANDOM=0;
-   }else{
-      printf("Error: init pop option must be rand or opt.\n");
-   }
-   if(INIT_POP_OPT == 1){
-      MAX_INIT_WORD_SIZE_OPT = strtod(argv[5], NULL);
-   }else{
-      MAX_INIT_WORD_SIZE_OPT = -1;
-   }
+   // char* init_pop_type = argv[9];
+   // if(!strcmp(init_pop_type, "rand")){
+   //    INIT_POP_RANDOM=1;
+   //    INIT_POP_OPT=0;
+   // }else if (!strcmp(init_pop_type, "opt")){
+   //    INIT_POP_OPT=1;
+   //    INIT_POP_RANDOM=0;
+   // }else{
+   //    printf("Error: init pop option must be rand or opt.\n");
+   // }
+   // if(INIT_POP_OPT == 1){
+   //    MAX_INIT_WORD_SIZE_OPT = strtod(argv[5], NULL);
+   // }else{
+   //    MAX_INIT_WORD_SIZE_OPT = -1;
+   // }
 
    automata* aut;
 
@@ -89,7 +80,7 @@ int main(int argc, char** argv)
    FILE* fp_log;
    fp_log = fopen(LOG_FILE, "w");
 
-   fp_times = (fopen(argv[7], "w"));
+   fp_times = (fopen(argv[6], "w"));
 
    fprintf(fp_log, "******************************\n******************************\n");
    fprintf(fp_log, "Experiment %s\n", input);
@@ -107,25 +98,14 @@ int main(int argc, char** argv)
    clock_t start_runtime;
    clock_t end_runtime;
 
-   
-
    if(initialization(&aut, input, specification, fp_log, &f1, &f2) == -1){
       return -1;
    };
-
-  
 
    start_i = clock();
    start_runtime = clock();
 
    hashedWord* hashTable =  initializeHashTable(*aut, &pop);
-   //  mpq_t weight;
-   // mpq_init(weight);
-   // weightOfWord(&weight, "()()(())", *aut, &hashTable);
-   // printf("El peso de la palabra en sum automata es %.30Lf\n y su fraccion: ", (long double) mpq_get_d(weight));
-   // mpq_out_str(stdout, 10, weight);
-   // printf("\n");
-   // mpq_clear(weight);
 
    end_i = clock();
 
@@ -164,6 +144,10 @@ int main(int argc, char** argv)
       time_algorithm = ((double)(clock() - start_algorithm) / CLOCKS_PER_SEC);
 
    }
+   if(!strcmp(type, "bf-search")){
+      fprintf(fp_times, "%.10lf\t%.25lf\t%s\n", time_algorithm, mpq_get_d(argmax->fitness), argmax->gens);
+   }
+
    printf("Finish\n");
    end_runtime = clock();
    
@@ -171,26 +155,19 @@ int main(int argc, char** argv)
 
    double total_inithash = ((double) (end_i - start_i)) / CLOCKS_PER_SEC;
 
-   if(strcmp(memo_times, "none")){
-      fprintf(fp_memo, "a\t%llu\n", n_matrixMult);
-      fprintf(fp_memo, "b\t%llu\n", n_potential_matrixMult);
-      fprintf(fp_memo, "Time-fraction-matrix-mult\t%.2lf\n", (totalTime_matrixMult/total_runtime));
-      fprintf(fp_memo, "Time-fraction-init-hash\t%.2lf\n", (total_inithash/total_runtime));
+   if(!strcmp(type, "memo")){
+      fprintf(fp_times, "a\t%llu\n", n_matrixMult);
+      fprintf(fp_times, "b\t%llu\n", n_potential_matrixMult);
+      fprintf(fp_times, "Time-fraction-matrix-mult\t%.2lf\n", (totalTime_matrixMult/total_runtime));
+      fprintf(fp_times, "Time-fraction-init-hash\t%.2lf\n", (total_inithash/total_runtime));
    }
 
    
-   // if(!strcmp(type, "difference")){
-   //    fprintf(fp_times, "%.10lf\t%.45lf\n", (double)(clock() - start_algorithm)/CLOCKS_PER_SEC, mpq_get_d(argmax->fitness));
-   // }
 
    fprintf(fp_log, "******************************\n******************************\n");
    fclose(fp_log);
 
    fclose(fp_times);
-
-   if(strcmp(memo_times, "none")){
-      fclose(fp_memo);
-   }
    
    freeIndividual(argmax);
    freePopulation(pop);

@@ -11,13 +11,9 @@ extern int n_repeated;
 
 extern int MAX_HASH_WORD_SIZE;
 
-
-extern int MAX_INIT_WORD_SIZE_OPT;
 extern int K;
 
 extern int COMPATIBLE_CROSSOVER_TRIES;
-extern int INIT_POP_OPT;
-extern int INIT_POP_RANDOM;
 
 extern FILE* fp_times;
 
@@ -30,70 +26,22 @@ int initPopulation(population** pop, automata aut, hashedWord** hashTable){
 	int i;
 	char* rand_word;
 
-	if(INIT_POP_RANDOM){
-		newPopulation(pop, POPULATION_SIZE, 0);
-		for(i = 0; i < POPULATION_SIZE; i++){
+	newPopulation(pop, POPULATION_SIZE, 0);
+	for(i = 0; i < POPULATION_SIZE; i++){
 
-			rand_word = generateRandomWord(aut.alphabet);
+		rand_word = generateRandomWord(aut.alphabet);
 
-			(*pop)->indivs[i].gens = (char *)malloc((strlen(rand_word) + 1)*sizeof(char));
-			if((*pop)->indivs[i].gens == NULL){
-				return -1;
-			}
-
-			strcpy((*pop)->indivs[i].gens, rand_word);
-
-			free(rand_word);
-
+		(*pop)->indivs[i].gens = (char *)malloc((strlen(rand_word) + 1)*sizeof(char));
+		if((*pop)->indivs[i].gens == NULL){
+			return -1;
 		}
+
+		strcpy((*pop)->indivs[i].gens, rand_word);
+
+		free(rand_word);
+
 	}
-	// }else if(INIT_POP_OPT){
-	// 	int i, l, j;
-	// 	int base = strlen(aut.alphabet)-1;
-	// 	double sample_size;
-	// 	if(base == 1){
-	// 		sample_size = MAX_INIT_WORD_SIZE_OPT;
-	// 	}else {
-	// 		sample_size = (pow(base, MAX_INIT_WORD_SIZE_OPT+1) -1)/(base - 1) -1; // We do not generate & initially
-	// 	}
-
-	// 	population* aux_pop;
-	// 	newPopulation(&aux_pop, sample_size, 0);
-
-	// 	char* listNumbers = (char*) malloc(sizeof(char)*(MAX_INIT_WORD_SIZE_OPT + 1));
-
-	// 	char* string;
-
-	// 	for(l = 1, j = 0; l <= MAX_INIT_WORD_SIZE_OPT; l++){
-	// 		for(i = 0; i < (int)pow(base, l) ; i++, j++){
-	// 			itoa (i, listNumbers, base);
-	// 			addZeros(listNumbers,l);
-	// 			listToWord(listNumbers, &string, aut, base);
-
-	// 			aux_pop->indivs[j].gens = (char*)malloc((strlen(string) + 1)*sizeof(char));
-	// 			strcpy(aux_pop->indivs[j].gens, string);
-
-	// 			weightOfWord(&(aux_pop->indivs[j].fitness), aux_pop->indivs[j].gens, aut, hashTable);
-	// 			free(string);
-	// 		}
-	// 	}
-	// 	orderPopulation(aux_pop);
-	// 	if(sample_size < POPULATION_SIZE){
-	// 		printf("Error: The number of words of length ≤ MAX_INIT_WORD_SIZE_OPT must be at least equal to POPULATION_SIZE.\n");
-	// 		return -1;
-	// 	}
-	// 	for(i = 0; i < POPULATION_SIZE; i++){
-	// 		(*pop)->indivs[i].gens = (char *)malloc((strlen(aux_pop->indivs[aux_pop->size-i-1].gens) + 1)*sizeof(char));
-	// 		if((*pop)->indivs[i].gens == NULL){
-	// 			return -1;
-	// 		}
-	// 		strcpy((*pop)->indivs[i].gens, aux_pop->indivs[aux_pop->size-i-1].gens);
-			
-	// 		mpq_set((*pop)->indivs[i].fitness, aux_pop->indivs[aux_pop->size-i-1].fitness);
-	// 	}
-	// 	freePopulation(aux_pop);
-	// 	free(listNumbers);
-	// }
+	
 			
 	return 0;
 		
@@ -707,10 +655,13 @@ int evaluate(population pop, individual* argmax){
 
 	maxIndividual(pop, &max);
 
-	if(pop.generations <= 1 || (mpq_cmp(argmax->fitness, max->fitness) < 0)){
+	if(pop.generations <= 0 || (mpq_cmp(argmax->fitness, max->fitness) < 0)){
 		strcpy(argmax->gens, max->gens);
 		mpq_set(argmax->fitness, max->fitness);
-	
+		
+		if(!strcmp(type, "bf-search")){
+			fprintf(fp_times, "%.10lf\t%.25lf\t%s\n", (double)(clock() - start_algorithm)/CLOCKS_PER_SEC, mpq_get_d(argmax->fitness), argmax->gens);
+		}
 		
 		n_repeated = 0; // (Initialize) Reset counter
 
@@ -895,19 +846,6 @@ hashedWord* initializeHashTable(automata aut, population** pop){
 	double sample_size;
 	population* aux_pop;
 
-	if(INIT_POP_OPT){
-		
-		newPopulation(pop, POPULATION_SIZE, 0);
-		if(base == 1){
-			sample_size = MAX_INIT_WORD_SIZE_OPT;
-		}else {
-			sample_size = (pow(base, MAX_INIT_WORD_SIZE_OPT+1) -1)/(base - 1) -1; // We do not generate & initially
-		}
-		
-		newPopulation(&aux_pop, sample_size, 0);
-		printf("Inicializo aux_pop con: %f\n", sample_size);
-	}
-
 	for(l = 1, j = 0; l <= MAX_HASH_WORD_SIZE; l++){
 		for(i = 0; i < (int)pow(base, l) ; i++, j++){
 			itoa (i, listNumbers, base);
@@ -928,37 +866,9 @@ hashedWord* initializeHashTable(automata aut, population** pop){
 
 				free(substring);
 			}
-			if(INIT_POP_OPT && l <=MAX_HASH_WORD_SIZE){
-				//printf("Valor de j: %d\n", j);
-				aux_pop->indivs[j].gens = (char*)malloc((strlen(string) + 1)*sizeof(char));
-				strcpy(aux_pop->indivs[j].gens, string);
-				//printf("aux_pop->indivs[j].gens: %s\n", aux_pop->indivs[j].gens);
-				weightOfWord(&(aux_pop->indivs[j].fitness), aux_pop->indivs[j].gens, aut, &hashTable);
-			}
-
 			free(string);
 			free(list);
 		}
-	}
-	if(INIT_POP_OPT){
-		printf("Ordeno la poblacion\n");
-		orderPopulation(aux_pop);
-		printf("Ordeno la poblacion\n");
-		printf("Aux pop size: %d\n", aux_pop->size);
-		if(sample_size < POPULATION_SIZE){
-			printf("Error: The number of words of length ≤ MAX_INIT_WORD_SIZE_OPT must be at least equal to POPULATION_SIZE.\n");
-			return NULL;
-		}
-		for(i = 0; i < POPULATION_SIZE; i++){
-			(*pop)->indivs[i].gens = (char *)malloc((strlen(aux_pop->indivs[aux_pop->size-i-1].gens) + 1)*sizeof(char));
-			if((*pop)->indivs[i].gens == NULL){
-				return NULL;
-			}
-			strcpy((*pop)->indivs[i].gens, aux_pop->indivs[aux_pop->size-i-1].gens);
-			
-			mpq_set((*pop)->indivs[i].fitness, aux_pop->indivs[aux_pop->size-i-1].fitness);
-		}
-		freePopulation(aux_pop);
 	}
 	free(listNumbers);
 	return hashTable;

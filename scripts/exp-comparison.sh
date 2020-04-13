@@ -24,29 +24,29 @@ do
 
 		4)	if (( $n_states > 12 ))
 			then
-				./main "$file" "aut" "20" "6" "0" "1" "../res/ga/newrandp/exp-comparison/$res_file" "no-file" "rand" "none"
-				./random-search "$file" "aut" "20" "6" "0" "1" "../res/random-search/newrandp/exp-comparison/$res_file" "no-file" "rand" "none"
+				./main "$file" "comparison" "20" "6" "1" "../res/ga/newrandp/exp-comparison/$res_file"
+				./random-search "$file" "comparison" "20" "6" "1" "../res/random-search/newrandp/exp-comparison/$res_file"
 			else
-				./main "$file" "aut" "20" "7" "0" "1" "../res/ga/newrandp/exp-comparison/$res_file" "no-file" "rand" "none"
-				./random-search "$file" "aut" "20" "7" "0" "1" "../res/random-search/newrandp/exp-comparison/$res_file" "no-file" "rand" "none"
+				./main "$file" "comparison" "20" "7" "1" "../res/ga/newrandp/exp-comparison/$res_file"
+				./random-search "$file" "comparison" "20" "7" "1" "../res/random-search/newrandp/exp-comparison/$res_file"
 			fi
 		;;
 		6)	if (( $n_states > 12 ))
 			then
-				./main "$file" "aut" "20" "5" "0" "1" "../res/ga/newrandp/exp-comparison/$res_file" "no-file" "rand" "none"
-				./random-search "$file" "aut" "20" "5" "0" "1" "../res/random-search/newrandp/exp-comparison/$res_file" "no-file" "rand" "none"
+				./main "$file" "comparison" "20" "5" "1" "../res/ga/newrandp/exp-comparison/$res_file"
+				./random-search "$file" "comparison" "20" "5" "1" "../res/random-search/newrandp/exp-comparison/$res_file"
 			else
-				./main "$file" "aut" "20" "6" "0" "1" "../res/ga/newrandp/exp-comparison/$res_file" "no-file" "rand" "none"
-				./random-search "$file" "aut" "20" "6" "0" "1" "../res/random-search/newrandp/exp-comparison/$res_file" "no-file" "rand" "none"
+				./main "$file" "comparison" "20" "6" "1" "../res/ga/newrandp/exp-comparison/$res_file"
+				./random-search "$file" "comparison" "20" "6" "1" "../res/random-search/newrandp/exp-comparison/$res_file"
 			fi
 		;;
 		10)	if (( $n_states > 12 ))
 			then
-				./main "$file" "aut" "20" "4" "0" "1" "../res/ga/newrandp/exp-comparison/$res_file" "no-file" "rand" "none"
-				./random-search "$file" "aut" "20" "4" "0" "1" "../res/random-search/newrandp/exp-comparison/$res_file" "no-file" "rand" "none"
+				./main "$file" "comparison" "20" "4" "1" "../res/ga/newrandp/exp-comparison/$res_file"
+				./random-search "$file" "comparison" "20" "4" "1" "../res/random-search/newrandp/exp-comparison/$res_file"
 			else
-				./main "$file" "aut" "20" "5" "0" "1" "../res/ga/newrandp/exp-comparison/$res_file" "no-file" "rand" "none"
-				./random-search "$file" "aut" "20" "5" "0" "1" "../res/random-search/newrandp/exp-comparison/$res_file" "no-file" "rand" "none"
+				./main "$file" "comparison" "20" "5" "1" "../res/ga/newrandp/exp-comparison/$res_file"
+				./random-search "$file" "comparison" "20" "5" "1" "../res/random-search/newrandp/exp-comparison/$res_file"
 			fi
 		esac
 	done

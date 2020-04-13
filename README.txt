@@ -17,7 +17,7 @@ cd scripts
 # When the execution of the later script finishes, results will be stored in genetic-alg-wfas/res/ga/newrandp/exp-comparison/ and genetic-alg-wfas/res/random-search/newrandp/exp-comparison/ 
 
 
-# Note that, in order to reproduce the same experiments, you may need to change the value of variable N_SAMPLES in plotting-comarison.py to 10
+# Note that, in order to reproduce the same experiments, you may need to change the value of variable N_SAMPLES in plotting-memoization.py to 10
 # To process the results of the experiment, run:
 
 python plotting-comparison.py

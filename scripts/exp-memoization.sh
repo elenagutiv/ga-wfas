@@ -25,27 +25,27 @@ do
 
 		4) 	if (( $n_states > 12 ))
 			then
-				./main "$file" "aut" "20" "6" "0" "1" "../res/ga/newrandp/exp-memoization/word-memo/$res_file" "no-file" "rand" "../res/ga/newrandp/exp-memoization/memo/$res_file"
+				./main "$file" "memo" "20" "6" "1" "../res/ga/newrandp/exp-memoization/memo/$res_file"
 			else
-				./main "$file" "aut" "20" "7" "0" "1" "../res/ga/newrandp/exp-memoization/word-memo/$res_file" "no-file" "rand" "../res/ga/newrandp/exp-memoization/memo/$res_file"
+				./main "$file" "memo" "20" "7" "1" "../res/ga/newrandp/exp-memoization/memo/$res_file"
 			fi
-		./main "$file" "aut" "20" "1" "0" "1" "../res/ga/newrandp/exp-memoization/word-no-memo/$res_file" "no-file" "rand" "../res/ga/newrandp/exp-memoization/no-memo/$res_file"
+		./main "$file" "memo" "20" "1" "1" "../res/ga/newrandp/exp-memoization/no-memo/$res_file"
 		;;
 		6)	if (( $n_states > 12 ))
 			then
-				./main "$file" "aut" "20" "5" "0" "1" "../res/ga/newrandp/exp-memoization/word-memo/$res_file" "no-file" "rand" "../res/ga/newrandp/exp-memoization/memo/$res_file"
+				./main "$file" "memo" "20" "5" "1" "../res/ga/newrandp/exp-memoization/memo/$res_file"
 			else
-				./main "$file" "aut" "20" "6" "0" "1" "../res/ga/newrandp/exp-memoization/word-memo/$res_file" "no-file" "rand" "../res/ga/newrandp/exp-memoization/memo/$res_file"
+				./main "$file" "memo" "20" "6" "1" "../res/ga/newrandp/exp-memoization/memo/$res_file"
 			fi
-		./main "$file" "aut" "20" "1" "0" "1" "../res/ga/newrandp/exp-memoization/word-no-memo/$res_file" "no-file" "rand" "../res/ga/newrandp/exp-memoization/no-memo/$res_file"
+		./main "$file" "memo" "20" "1" "1" "../res/ga/newrandp/exp-memoization/no-memo/$res_file"
 		;;
 		10)	if (( $n_states > 12 ))
 			then
-				./main "$file" "aut" "20" "4" "0" "1" "../res/ga/newrandp/exp-memoization/word-memo/$res_file" "no-file" "rand" "../res/ga/newrandp/exp-memoization/memo/$res_file"
+				./main "$file" "memo" "20" "4" "1" "../res/ga/newrandp/exp-memoization/memo/$res_file"
 			else
-				./main "$file" "aut" "20" "5" "0" "1" "../res/ga/newrandp/exp-memoization/word-memo/$res_file" "no-file" "rand" "../res/ga/newrandp/exp-memoization/memo/$res_file"
+				./main "$file" "memo" "20" "5" "1" "../res/ga/newrandp/exp-memoization/memo/$res_file"
 			fi
-		./main "$file" "aut" "20" "1" "0" "1" "../res/ga/newrandp/exp-memoization/word-no-memo/$res_file" "no-file" "rand" "../res/ga/newrandp/exp-memoization/no-memo/$res_file"
+		./main "$file" "memo" "20" "1" "1" "../res/ga/newrandp/exp-memoization/no-memo/$res_file"
 		esac
 	done
 done
