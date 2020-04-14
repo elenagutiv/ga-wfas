@@ -28,7 +28,7 @@ int main(int argc, char** argv)
 	type = argv[2];
 	char* specification;
 	if(!strcmp(type, "difference")){
-	  specification = argv[7];
+	  specification = argv[6];
 	}else{
 	  specification = NULL;
 	}
@@ -45,7 +45,7 @@ int main(int argc, char** argv)
 	FILE* fp_log;
 	fp_log = fopen(LOG_FILE, "w");
 
-   	fp_times = (fopen(argv[6], "w"));
+   	fp_times = (fopen(argv[5], "w"));
 
 	fprintf(fp_log, "******************************\n******************************\n");
 	fprintf(fp_log, "Experiment %s\n", argv[1]);

@@ -24,20 +24,8 @@
 
 #define FLAG_SELECTION_FPS 1
 
-#define FLAG_CROSSOVER_SNU 1
-#define FLAG_CROSSOVER_TNU 0
-
 #define FLAG_PRUNE_NO_REPS 1
 #define FLAG_PRUNE_RATE 1
-
-// #define COMPATIBLE_CROSSOVER_TRIES 2 //Commented while performing experiments since now it is an argument of the execution
-#define COMPATIBILITY_AVG 0
-#define COMPATIBILITY_MAX 1
-
-#define COMP_TYPE 2 // 1: booleanPost, 2: weightedPost, 3:signedPost
-#define COMP_BOOLEAN 1
-#define COMP_WEIGHTED 2
-#define COMP_SIGN 3
 
 #define FLAG_BOUND_BY_MUT 0
 #define FLAG_BOUND_BY_CROSS 0

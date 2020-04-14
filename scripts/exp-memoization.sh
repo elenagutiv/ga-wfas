@@ -25,27 +25,27 @@ do
 
 		4) 	if (( $n_states > 12 ))
 			then
-				./main "$file" "memo" "20" "6" "1" "../res/ga/newrandp/exp-memoization/memo/$res_file"
+				./main "$file" "memo" "20" "6" "../res/ga/newrandp/exp-memoization/memo/$res_file"
 			else
-				./main "$file" "memo" "20" "7" "1" "../res/ga/newrandp/exp-memoization/memo/$res_file"
+				./main "$file" "memo" "20" "7" "../res/ga/newrandp/exp-memoization/memo/$res_file"
 			fi
-		./main "$file" "memo" "20" "1" "1" "../res/ga/newrandp/exp-memoization/no-memo/$res_file"
+		./main "$file" "memo" "20" "../res/ga/newrandp/exp-memoization/no-memo/$res_file"
 		;;
 		6)	if (( $n_states > 12 ))
 			then
-				./main "$file" "memo" "20" "5" "1" "../res/ga/newrandp/exp-memoization/memo/$res_file"
+				./main "$file" "memo" "20" "5" "../res/ga/newrandp/exp-memoization/memo/$res_file"
 			else
-				./main "$file" "memo" "20" "6" "1" "../res/ga/newrandp/exp-memoization/memo/$res_file"
+				./main "$file" "memo" "20" "6" "../res/ga/newrandp/exp-memoization/memo/$res_file"
 			fi
-		./main "$file" "memo" "20" "1" "1" "../res/ga/newrandp/exp-memoization/no-memo/$res_file"
+		./main "$file" "memo" "20" "../res/ga/newrandp/exp-memoization/no-memo/$res_file"
 		;;
 		10)	if (( $n_states > 12 ))
 			then
-				./main "$file" "memo" "20" "4" "1" "../res/ga/newrandp/exp-memoization/memo/$res_file"
+				./main "$file" "memo" "20" "4" "../res/ga/newrandp/exp-memoization/memo/$res_file"
 			else
-				./main "$file" "memo" "20" "5" "1" "../res/ga/newrandp/exp-memoization/memo/$res_file"
+				./main "$file" "memo" "20" "5" "../res/ga/newrandp/exp-memoization/memo/$res_file"
 			fi
-		./main "$file" "memo" "20" "1" "1" "../res/ga/newrandp/exp-memoization/no-memo/$res_file"
+		./main "$file" "memo" "20" "../res/ga/newrandp/exp-memoization/no-memo/$res_file"
 		esac
 	done
 done

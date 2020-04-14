@@ -10,7 +10,6 @@ int n_repeated = 0;
 
 int MAX_HASH_WORD_SIZE;
 int K;
-int COMPATIBLE_CROSSOVER_TRIES;
 
 FILE* fp_times;
 
@@ -30,7 +29,7 @@ int main(int argc, char** argv)
    char* input = argv[1];
    char* specification;
    if(!strcmp(type, "difference")){
-      specification = argv[7];
+      specification = argv[6];
    }else{
       specification = NULL;
    }
@@ -40,27 +39,7 @@ int main(int argc, char** argv)
    double M = strtod(argv[3], NULL);
    MAX_HASH_WORD_SIZE = strtod(argv[4], NULL);
    
-   double C = strtod(argv[5], NULL);
-
    K = (int)M;
-   COMPATIBLE_CROSSOVER_TRIES = (int) C;
-
-   // char* init_pop_type = argv[9];
-   // if(!strcmp(init_pop_type, "rand")){
-   //    INIT_POP_RANDOM=1;
-   //    INIT_POP_OPT=0;
-   // }else if (!strcmp(init_pop_type, "opt")){
-   //    INIT_POP_OPT=1;
-   //    INIT_POP_RANDOM=0;
-   // }else{
-   //    printf("Error: init pop option must be rand or opt.\n");
-   // }
-   // if(INIT_POP_OPT == 1){
-   //    MAX_INIT_WORD_SIZE_OPT = strtod(argv[5], NULL);
-   // }else{
-   //    MAX_INIT_WORD_SIZE_OPT = -1;
-   // }
-
    automata* aut;
 
    individual* argmax;
@@ -80,7 +59,7 @@ int main(int argc, char** argv)
    FILE* fp_log;
    fp_log = fopen(LOG_FILE, "w");
 
-   fp_times = (fopen(argv[6], "w"));
+   fp_times = (fopen(argv[5], "w"));
 
    fprintf(fp_log, "******************************\n******************************\n");
    fprintf(fp_log, "Experiment %s\n", input);
@@ -138,7 +117,7 @@ int main(int argc, char** argv)
 
       evaluate(*pop, argmax);
       halt = 0;
-      fprintf(fp_log,"[Gen: %d][n_reps = %d] argmax found is %s and weight: %.25lf", pop->generations, n_repeated, argmax->gens, mpq_get_d(argmax->fitness));
+      fprintf(fp_log,"[Gen: %d][n_reps = %d] argmax found is %s and weight: %.25lf\n", pop->generations, n_repeated, argmax->gens, mpq_get_d(argmax->fitness));
       fflush(fp_log);
 
       time_algorithm = ((double)(clock() - start_algorithm) / CLOCKS_PER_SEC);

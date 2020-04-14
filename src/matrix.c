@@ -85,13 +85,11 @@ mpq_t* vectorMatrixMultiplication(mpq_t* v, int dimension, mpq_t** m, int cols, 
 	for(i = 0; i < cols; i++){
 		mpq_set_d(acc, 0.0);
 		for(j = 0; j < dimension; j++){
-			//acc += v[j]*m[j][i];
 			mpq_mul(product, v[j], m[j][i]);
 			mpq_add(accp, acc, product);
 			mpq_set(acc, accp);
 
 		}
-		//res[i] = acc;
 		mpq_set(res[i], acc);
 		
 	}
@@ -139,13 +137,11 @@ mpq_t* matrixVectorMultiplication(mpq_t** m, int rows, int cols, mpq_t* v, int d
 	for(i = 0; i < rows; i++){
 		mpq_set_d(acc, 0.0);
 		for(j = 0; j < dimension; j++){
-			//acc += v[j]*m[j][i];
 			mpq_mul(product, m[i][j], v[j]);
 			mpq_add(accp, acc, product);
 			mpq_set(acc, accp);
 
 		}
-		//res[i] = acc;
 		mpq_set(res[i], acc);
 		
 	}
@@ -221,10 +217,8 @@ mpq_t** createIdentityMatrix(int dimension){
 	for(i = 0; i < dimension; i++){
 		for(j = 0; j < dimension; j++){
 			if (i == j){
-				//identityMatrix = 1.0;
 				mpq_set_d(identityMatrix[i][j], 1.0);
 			}else{
-				//identityMatrix[i][j] = 0.0;
 				mpq_set_d(identityMatrix[i][j], 0.0);
 			}
 		}
@@ -334,8 +328,6 @@ void freeMatrix(mpq_t** m, int n_rows, int n_cols){
 		}
 		free(m);
 }
-
-// Hash table functions
 
 
 

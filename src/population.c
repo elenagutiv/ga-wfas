@@ -13,8 +13,6 @@ extern int MAX_HASH_WORD_SIZE;
 
 extern int K;
 
-extern int COMPATIBLE_CROSSOVER_TRIES;
-
 extern FILE* fp_times;
 
 extern char* type;
@@ -41,7 +39,6 @@ int initPopulation(population** pop, automata aut, hashedWord** hashTable){
 		free(rand_word);
 
 	}
-	
 			
 	return 0;
 		
@@ -226,7 +223,7 @@ int prune(population** newpop, population* oldpop, population* children, automat
 			mpq_set((*newpop)->indivs[i].fitness, children->indivs[indicesChild[i]].fitness);			
 		}
 
-		naturalSelection(oldpop); // mutation might have alter the right order in old_pop
+		naturalSelection(oldpop); // mutation might have changed the right order in old_pop
 
 		if(FLAG_PRUNE_NO_REPS){
 			indicesOld = getIndicesRouletteNoReps(POPULATION_SIZE, n_old);
@@ -286,130 +283,18 @@ int crossover(individual parentA, individual parentB, individual* childA, indivi
 	// Single-point crossover: Choose one crossover-point randomly at each parent A and B. 
 	// Then form child A with the left part of parent A concatenated with the right part of parent B.
 	// And form child B with the left part of parent B concatenated with the right part of parent A.
-	int lengthA, lengthB, i, j, k, l;
 
 	int random = randint(1001); // Generate numbers between 0 and 1000 included
 	float pc = (float) random/(float) 1000; // Convert into a number between 0 and 1
 		
 	if(pc <= CROSSOVER_PROB && (strlen(parentA.gens) > 0 &&  strlen(parentB.gens) > 0)){
-
-		if(FLAG_CROSSOVER_SNU){
-			int indexA, indexB;
-
-			mpq_t childrenAfitness, childrenBfitness;
-			if(COMP_TYPE == COMP_WEIGHTED){
-				
-				mpq_init(childrenAfitness);
-				mpq_init(childrenBfitness);
-			}
-
-			compatibleSNUCrossover(parentA.gens, parentB.gens, &indexA, &indexB, &childrenAfitness, &childrenBfitness, aut, hashTable);			
-			lengthA = ((indexA + 1) + (strlen(parentB.gens) - indexB -1) <= K)? ((indexA + 1) + (strlen(parentB.gens) - indexB -1)) : K; // does not include '\0'
-			lengthB = ((indexB + 1) + (strlen(parentA.gens) - indexA -1) <= K)? ((indexB + 1) + (strlen(parentA.gens) - indexA -1)) : K;
-
-			childA->gens = (char*)malloc((lengthA+1)*sizeof(char));
-			childB->gens = (char*)malloc((lengthB+1)*sizeof(char));
-
-			for(i = 0; i <= indexA; i++){
-				childA->gens[i] = parentA.gens[i];
-			}
-			for(j = i, k = indexB+1; j < lengthA && k < strlen(parentB.gens); j++, k++){
-				childA->gens[j] = parentB.gens[k];
-			}
-			childA->gens[j] = '\0';
-			
-			for(i = 0; i <= indexB; i++){
-				childB->gens[i] = parentB.gens[i];
-			}
-			for(j = i, k = indexA+1; j < lengthB && k < strlen(parentA.gens); j++, k++){
-				childB->gens[j] = parentA.gens[k];
-			}
-			childB->gens[j] = '\0';
-
-			if(COMP_TYPE == COMP_WEIGHTED){
-				mpq_set(childA->fitness, childrenAfitness);
-				mpq_set(childB->fitness, childrenBfitness);
-
-				mpq_clear(childrenAfitness);
-				mpq_clear(childrenBfitness);
-			}
-			
-		}else if(FLAG_CROSSOVER_TNU){ //TODO Bound with K as above
-
-			int index1A, index2A, index1B, index2B, aux;
-			if(strlen(parentA.gens) == 1){
-				index1A = 1;
-				index2A = 1;
-			}else{
-				index1A = randint(strlen(parentA.gens));
-				index2A = randint(strlen(parentA.gens));
-				while(index1A == index2A){
-					index2A = randint(strlen(parentA.gens)); // This can be optimized by writing a function randint that excludes desired numbers
-				}
-				if(index1A > index2A){
-					aux = index1A;
-					index1A = index2A;
-					index2A = aux;
-				}
-			}
-			if(strlen(parentB.gens) == 1){
-				index1B = 1;
-				index2B = 1;
-			}else{
-				index1B = randint(strlen(parentB.gens));
-				index2B = randint(strlen(parentB.gens));
-				while(index1B == index2B){
-					index2B = randint(strlen(parentB.gens)); // This can be optimized by writing a function randint that excludes desired numbers
-				}
-				if(index1B > index2B){
-					aux = index1B;
-					index1B = index2B;
-					index2B = aux;
-				}
-			}
-
-			lengthA = (index1A + 1) + (index2B - index1B) + (strlen(parentA.gens) - index2A - 1);
-			lengthB = (index1B + 1) + (index2A - index1A) + (strlen(parentB.gens) - index2B - 1);
-
-
-			childA->gens = (char*)malloc((lengthA+1)*sizeof(char));
-			childB->gens = (char*)malloc((lengthB+1)*sizeof(char));
-
-			for(i = 0; i <= index1A; i++){
-				childA->gens[i] = parentA.gens[i];
-			}
-			for(j = i, k = index1B+1; k <= index2B; j++, k++){
-				childA->gens[j] = parentB.gens[k];
-			}
-			for(k = j, l = index2A+1; k < lengthA; k++, l++){
-				childA->gens[k] = parentA.gens[l];
-			}
-			childA->gens[k] = '\0';
-
-			for(i = 0; i <= index1B; i++){
-				childB->gens[i] = parentB.gens[i];
-			}
-			for(j = i, k = index1A+1; k <= index2A; j++, k++){
-				childB->gens[j] = parentA.gens[k];
-			}
-			for(k = j, l = index2B+1; k < lengthB; k++, l++){
-				childB->gens[k] = parentB.gens[l];
-			}
-			childB->gens[k] = '\0';
-		}
+	
+		SNUCrossover(parentA, parentB, childA, childB, aut, hashTable);			
 
 	}else{
 
-		childA->gens = (char*)malloc((strlen(parentA.gens)+1)*sizeof(char));
-		childB->gens = (char*)malloc((strlen(parentB.gens)+1)*sizeof(char));
-
-		strcpy(childA->gens, parentA.gens);
-		mpq_set(childA->fitness, parentA.fitness);
-
-		strcpy(childB->gens, parentB.gens);
-		mpq_set(childB->fitness, parentB.fitness);
-
-		printf("Parent of length 0 processed\n");
+		copyCrossover(parentA, parentB, childA, childB, aut, hashTable);			
+		
 	}
 	return 0;
 }
@@ -522,131 +407,57 @@ int mutateIndividual(individual* indiv, automata aut, hashedWord** hashTable){
 }
 
 
-int compatibleSNUCrossover(char* parentAgens, char* parentBgens, int* resindexA, int* resindexB, mpq_t* childrenAfitness, mpq_t* childrenBfitness, automata aut, hashedWord** hashTable){
-	int indexA, indexB;
-	int* indexesA = (int*)malloc(COMPATIBLE_CROSSOVER_TRIES*sizeof(int));
-	int* indexesB = (int*)malloc(COMPATIBLE_CROSSOVER_TRIES*sizeof(int));
-	char* pA1, *pA2, *pB1, *pB2; // parentAgens = pA1|pA2 and parentBgens = pB1|pB2
-	int lengthpA2, lengthpB2;
-	int i, j, k;
-	mpq_t* compA, *compB, *compatibilities;
-	compA = (mpq_t*)malloc(COMPATIBLE_CROSSOVER_TRIES*sizeof(mpq_t));
-	compB = (mpq_t*)malloc(COMPATIBLE_CROSSOVER_TRIES*sizeof(mpq_t));
-	compatibilities = (mpq_t*)malloc(COMPATIBLE_CROSSOVER_TRIES*sizeof(mpq_t));
-
-	for(i = 0; i < COMPATIBLE_CROSSOVER_TRIES; i++){
-		mpq_init(compA[i]);
-		mpq_init(compB[i]);
-		mpq_init(compatibilities[i]);
-	}
-
-	mpq_t max_comp, sum_comp, div_comp, zero, two ;
-	mpq_init(max_comp);
-	mpq_init(sum_comp);
-	mpq_init(div_comp);
-	mpq_init(zero); //mpq_init initializes to 0.0
-	mpq_init(two);
-
-	mpq_set_d(two, 2.0);
-
-	int index_compat = 0; //If index_compat is not updated after the loop it means compatibilities[i]==0 for all i. Then, we use compatibilities[0]
-
-	for(i = 0; i < COMPATIBLE_CROSSOVER_TRIES; i++){
-
-		indexA = randint(strlen(parentAgens));
-		indexB  =randint(strlen(parentBgens));
-
-		indexesA[i] = indexA;
-		indexesB[i] = indexB;
-
-		pA1 = (char*)malloc(((indexA+1)+1)*sizeof(char));
-		lengthpB2 = ((indexA + 1) + (strlen(parentBgens) - indexB -1) <= K)? (strlen(parentBgens) - (indexB+1)) : (K - (indexA+1));
-		pB2 = (char*)malloc((lengthpB2 + 1)*sizeof(char));
-		
-		pB1 = (char*)malloc(((indexB+1)+1)*sizeof(char));
-		lengthpA2 = ((indexB + 1) + (strlen(parentAgens) - indexA -1) <= K)? (strlen(parentAgens) - (indexA+1)) : (K - (indexB+1));
-		pA2 = (char*)malloc((lengthpA2 + 1)*sizeof(char));
-
-		for(j = 0; j <= indexA; j++){
-			pA1[j] = parentAgens[j];
-		}
-		pA1[indexA+1] = '\0';
-		for(j = 0, k = indexB+1; j < lengthpB2 && k < strlen(parentBgens); j++, k++){
-			pB2[j] = parentBgens[k];
-		}
-		pB2[lengthpB2] = '\0';
-
-		for(j = 0; j <= indexB; j++){
-			pB1[j] = parentBgens[j];
-		}
-		pB1[indexB+1] = '\0';
-		for(j = 0, k = indexA+1; j < lengthpA2 && k < strlen(parentAgens); j++, k++){
-			pA2[j] = parentAgens[k];
-		}
-		pA2[lengthpA2] = '\0';
-		
-		compatibility(pA1, pB2, aut, &compA[i], hashTable); //&compA[] = compA
-		compatibility(pB1, pA2, aut, &compB[i], hashTable);
-
-		if(COMPATIBILITY_AVG){
-			mpq_add(sum_comp, compA[i], compB[i]);
-			if(mpq_equal(sum_comp, zero) != 0){ //mpq_equal returns non-zero if sum_comp and zero are equal
-				mpq_set(compatibilities[i], zero);
-			}else{
-				mpq_div(div_comp, sum_comp, two);
-				mpq_set(compatibilities[i], div_comp);
-			}
-			
-		}else if(COMPATIBILITY_MAX){
-			if(mpq_cmp(compA[i], compB[i]) < 0){  //mpq_cmp returns < 0 if A < B
-				mpq_set(compatibilities[i], compB[i]);
-			}else{
-				mpq_set(compatibilities[i], compA[i]);
-			}
-		}
-		// I collect the maximum compatibility seen
-		if(mpq_cmp(compatibilities[i], max_comp) > 0){ //mpq_cmp returns > 0 if A > B
-			mpq_set(max_comp, compatibilities[i]);
-			index_compat = i;
-		}
-
-	}	
+int SNUCrossover(individual parentA, individual parentB, individual* childA, individual* childB, automata aut, hashedWord** hashTable){
 	
-	*resindexA = indexesA[index_compat];
-	*resindexB = indexesB[index_compat];
+	int indexA, indexB;
+	int i, j, k;
+	int lengthA, lengthB;
 
-	if(COMP_TYPE == COMP_WEIGHTED){
-		mpq_set(*childrenAfitness, compA[index_compat]);
-		mpq_set(*childrenBfitness, compB[index_compat]);
+	indexA = randint(strlen(parentA.gens));
+	indexB  =randint(strlen(parentB.gens));
 
+	lengthA = ((indexA + 1) + (strlen(parentB.gens) - indexB -1) <= K)? ((indexA + 1) + (strlen(parentB.gens) - indexB -1)) : K; // does not include '\0'
+	lengthB = ((indexB + 1) + (strlen(parentA.gens) - indexA -1) <= K)? ((indexB + 1) + (strlen(parentA.gens) - indexA -1)) : K;
+
+	childA->gens = (char*)malloc((lengthA+1)*sizeof(char));
+	childB->gens = (char*)malloc((lengthB+1)*sizeof(char));
+
+	for(i = 0; i <= indexA; i++){
+		childA->gens[i] = parentA.gens[i];
 	}
-
-	mpq_clear(max_comp);
-	mpq_clear(sum_comp);
-	mpq_clear(div_comp);
-	mpq_clear(zero); 
-	mpq_clear(two);
-
-	for(i = 0;  i < COMPATIBLE_CROSSOVER_TRIES; i++){
-		mpq_clear(compA[i]);
-		mpq_clear(compB[i]);
-		mpq_clear(compatibilities[i]);
+	for(j = i, k = indexB+1; j < lengthA && k < strlen(parentB.gens); j++, k++){
+		childA->gens[j] = parentB.gens[k];
 	}
-	free(compA);
-	free(compB);
-	free(compatibilities);
+	childA->gens[j] = '\0';
+	
+	for(i = 0; i <= indexB; i++){
+		childB->gens[i] = parentB.gens[i];
+	}
+	for(j = i, k = indexA+1; j < lengthB && k < strlen(parentA.gens); j++, k++){
+		childB->gens[j] = parentA.gens[k];
+	}
+	childB->gens[j] = '\0';
 
-	free(pA1);
-	free(pA2);
-	free(pB1);
-	free(pB2);
-	free(indexesA);
-	free(indexesB);
+	weightOfWord(&(childA->fitness), childA->gens, aut, hashTable);
+	weightOfWord(&(childB->fitness), childB->gens, aut, hashTable);
 
 	return 0;
 
 }
 
+int copyCrossover(individual parentA, individual parentB, individual* childA, individual* childB, automata aut, hashedWord** hashTable){
+	
+	childA->gens = (char*)malloc((strlen(parentA.gens)+1)*sizeof(char));
+	childB->gens = (char*)malloc((strlen(parentB.gens)+1)*sizeof(char));
+
+	strcpy(childA->gens, parentA.gens);
+	mpq_set(childA->fitness, parentA.fitness);
+
+	strcpy(childB->gens, parentB.gens);
+	mpq_set(childB->fitness, parentB.fitness);
+
+	return 0;
+}
 
 /* n_repeated counts the number of consecutive repetitions of the same argmax*/
 int evaluate(population pop, individual* argmax){

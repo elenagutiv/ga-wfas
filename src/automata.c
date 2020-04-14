@@ -143,8 +143,6 @@ int initAutomataFromInput(char* filename, automata** aut){
 	(*aut)->final = (mpq_t*)malloc((*aut)->n_states*sizeof(mpq_t));
 
 	for(i = 0; i < n_states; i++){
-		//(*aut)->init[i] = init[i];
-		//(*aut)->final[i] = final[i];
 
 		mpq_init((*aut)->init[i]);
 		mpq_set_d((*aut)->init[i], init[i]);
@@ -305,11 +303,6 @@ int initAutomataFromPCPInstance(char* filename, automata** res, FILE* fp_log, ch
 			mpq_set_d(aut2->final[i], 0.0);
 		}
 	}
-	// The following initialization is performed above
-	// aut1->init = (double[2]){1.0, 0.0};
-	// aut2->init = (double[2]){1.0, 0.0};
-	// aut1->final = (double[2]){0.0, 1.0};
-	// aut2->final = (double[2]){1.0, 0.0};
 
 	for(i = 1; i < strlen(aut1->alphabet); i++){ //Skip '&' since it is already initialized
 		phi((*f1)[i-1], &phi_1_i);
@@ -364,42 +357,16 @@ int initAutomataFromPCPInstance(char* filename, automata** res, FILE* fp_log, ch
 	fprintf(fp_log, "\nSum automata\n");
 	printAutomata(sum, fp_log);
 
-	// mpq_t weight1, uno, resta, produ;
-	// mpq_init(weight1);
-	// mpq_init(resta);
-	// mpq_init(produ);
-	// mpq_init(uno);
-
-	// mpq_set_d(weight1, 0.5000000000065929794176162);
-	// mpq_set_d(uno, 1);
-	// mpq_sub(resta, uno, weight1);
-	// mpq_mul(produ, weight1, resta);
-	// mpq_out_str(stdout, 10, produ);
-	// printf("\n");
-
-	// double weight2 = 0.5000000000065929794176162;
-
-	// double op = weight2*(1-weight2);
-	// printf("La operacion da %.20lf\n", op);
 
 	complementedCopy(sum, &comp);
 	hadamardProduct(sum, comp, res);
-    //escalarByAutomata(-1, prod);
-    //sumAutomata(sum, prod, res);
+
+
     fprintf(fp_log, "Res automata\n");
     printAutomata(*res, fp_log);
 
     // Solution of PCP3: babbababbabbcbbccbaacbbabcbbaabcbbbacbcbccac
     // Solution of PCP2: caacacabcabcaabbbcabaabbcababbcaaabcacabbcabbabbababbab
-
-
-	// mpq_t weight;
-	// mpq_init(weight);
-	//weightOfWord(&weight, "aaaaaaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbbbb", *(*res));
-	// printf("El peso de la palabra en sum automata es %.30Lf\n y su fraccion: ", (long double) mpq_get_d(weight));
-	// mpq_out_str(stdout, 10, weight);
-	// printf("\n");
-	// mpq_clear(weight);
 
     
     for(i = 0; i < aut1->n_states; i++){
@@ -456,12 +423,7 @@ int phi(char* f, mpq_t* res){
 		n++;
 		mpq_div(division, one, power);
 		mpq_add(*res, *res, division);
-
-		//res += strtod(string, NULL) /(pow(2,n));
-		//n++;
-		//res += 1 /(pow(2,n));
 	}
-	//res += 1/(pow(2,n)); // We have to add 1 at the front of every string in the PCP instance.
 	mpq_clear(strtodf); mpq_clear(power); mpq_clear(division); mpq_clear(one);
 	return 0;
 
@@ -649,7 +611,6 @@ int weightOfWord(mpq_t* weight, char* word, automata aut, hashedWord** hashTable
 		mpq_set_d(*weight, 0.0);
 		return 0;
 	}
-	//removeEspecialCharacterFromWord(&word, word, '&');
 
 	mpq_t* initWordWeight;
 	mpq_t _weight;
@@ -678,116 +639,6 @@ int weightOfWord(mpq_t* weight, char* word, automata aut, hashedWord** hashTable
 
 };
 
-/* Returns a vector with as many components as states and so that the nth-component has value 1
-   if state n is reachable from an initial states while reading prefix, and 0 otherwise.*/
-int postOfWord(char* prefix, automata aut, mpq_t** u, hashedWord** hashTable){
-	int i, j;
-	int* list;
-
-	if(wordToList(&list, prefix, aut)==-1){
-		return -1;
-	}
-
-	//removeEspecialCharacterFromWord(&prefix, prefix, '&');
-
-
-	mpq_t** prefixWeight;
-	mpq_t* initPrefixWeight;
-	mpq_t _weight;
-	mpq_init(_weight);
-
-	initPrefixWeight = hashedInitVectorMatrixProduct(prefix, aut, hashTable);
-	*u = initPrefixWeight;
-
-	/*Convert u into a vector of 0-1 values: a component takes 1-value if it is non-zero, and a 0-value otherwise*/
-	if(COMP_TYPE == COMP_BOOLEAN){
-		mpq_t zero;
-		mpq_init(zero); //mpq_init initializes to 0.0
-
-		for(i = 0; i < aut.n_states; i++){
-			if(mpq_equal((*u)[i], zero) == 0){ //If (*u)[i]) != zero, returns zero
-				mpq_set_d((*u)[i], 1.0);
-			}// mpq_init initializes res to 0.0, therefore we skip the else-case.
-		}
-		mpq_clear(zero);
-
-	}else if(COMP_TYPE == COMP_SIGN){
-		mpq_t zero;
-		mpq_init(zero); //mpq_init initializes to 0.0
-
-		for(i = 0; i < aut.n_states; i++){
-			if(mpq_cmp((*u)[i], zero) > 0){ //If (*u)[i]) != zero, returns zero
-				mpq_set_d((*u)[i], 1.0);
-			}else if (mpq_cmp((*u)[i], zero) < 0){
-				mpq_set_d((*u)[i], -1.0);
-			}// mpq_init initializes res to 0.0, therefore we skip the else-case.
-		}
-		mpq_clear(zero);
-	}
-	free(list);
-	return 0;
-
-}
-
-/* Returns a vector with as many components as states and so that the nth-component has value 1
-   if from state n a final state is reachable states while reading suffix, and 0 otherwise.*/
-int preOfWord(char* suffix, automata aut, mpq_t** v, hashedWord** hashTable){
-	int i, j;
-	int* list;
-	if(wordToList(&list, suffix, aut)==-1){
-		return -1;
-	}
-
-	//TODO: removeEspecialCharacterFromWord(&suffix, suffix, '&');
-
-	mpq_t** suffixWeight;
-	mpq_t* finalSuffixWeight;
-	mpq_t _weight;
-	mpq_init(_weight);
-
-	finalSuffixWeight = hashedMatrixFinalVectorProduct(suffix, aut, hashTable);
-	*v = finalSuffixWeight;
-
-	/*Convert u into a vector of 0-1 values: a component takes 1-value if it is non-zero, and a 0-value otherwise*/
-	if(COMP_TYPE == COMP_BOOLEAN){
-		mpq_t zero;
-		mpq_init(zero); //mpq_init initializes to 0.0
-
-		for(i = 0; i < aut.n_states; i++){
-			if(mpq_equal((*v)[i], zero) == 0){ //If (*u)[i]) != zero, returns zero
-				mpq_set_d((*v)[i], 1.0);
-			}// mpq_init initializes res to 0.0, therefore we skip the else-case.
-		}
-		mpq_clear(zero);
-
-	}
-	free(list);
-
-	return 0;
-
-}
-
-
-/* Returns the number of paths for the word that results from concatenating prefix and suffix*/
-int compatibility(char* prefix, char* suffix, automata aut, mpq_t* compatibility, hashedWord** hashTable){
-
-	n_potential_matrixMult += strlen(prefix) + strlen(suffix) + 1;
-
-	mpq_t* u, *v;
-	mpq_t res;
-	mpq_init(res);
-
-	postOfWord(prefix, aut, &u, hashTable);
-	preOfWord(suffix, aut, &v, hashTable);
-
-	escalarProduct(u, aut.n_states, v, aut.n_states, &res);
-
-	mpq_set(*compatibility, res);
-
-	return 0;
-
-}
-
 int wordToList(int** alist, char* word, automata aut){
 
 	int i, j;
@@ -810,7 +661,6 @@ int wordToList(int** alist, char* word, automata aut){
 		}
 		
 	}
-
 
 	return 0;
 }
@@ -879,7 +729,6 @@ int hadamardProduct (automata* aut1, automata* aut2, automata** res){
 				b1 = i%aut2->n_states;
 				b2 = j%aut2->n_states;
 
-				//(*res)->matrices[k][i][j] = (aut1->matrices[k][a1][a2])*(aut2->matrices[k][b1][b2]);
 				mpq_mul((*res)->matrices[k][i][j], aut1->matrices[k][a1][a2], aut2->matrices[k][b1][b2]);
 
 			}
@@ -888,8 +737,6 @@ int hadamardProduct (automata* aut1, automata* aut2, automata** res){
 	
 	for(i = 0, j = 0; j < aut1->n_states; j++){
 		for(k = 0; k < aut2->n_states; k++, i++){
-			// (*res)->init[i] = (aut1->init[j])*(aut2->init[k]);
-			// (*res)->final[i] = (aut1->final[j])*(aut2->final[k]);
 
 			mpq_mul((*res)->init[i], aut1->init[j], aut2->init[k]);
 			mpq_mul((*res)->final[i], aut1->final[j], aut2->final[k]);
@@ -963,20 +810,16 @@ int sumAutomata(automata* aut1, automata* aut2, automata** res){
 			for(j = 0; j < (*res)->n_states; j++){
 				if(i < aut1->n_states){
 					if(j < aut1->n_states){
-						//(*res)->matrices[k][i][j] = aut1->matrices[k][i][j];
 						mpq_set((*res)->matrices[k][i][j], aut1->matrices[k][i][j]);
 					}else{
-						//(*res)->matrices[k][i][j] = 0;
 						mpq_set_d((*res)->matrices[k][i][j], 0.0);
 					}
 				}else{
 					if(j < aut1->n_states){
-						//(*res)->matrices[k][i][j] = 0;
 						mpq_set_d((*res)->matrices[k][i][j], 0.0);
 					}else{
 						l = i - aut1->n_states;
 						m = j - aut1->n_states;
-						//(*res)->matrices[k][i][j] = aut2->matrices[k][l][m];
 						mpq_set((*res)->matrices[k][i][j], aut2->matrices[k][l][m]);
 					}
 
@@ -987,14 +830,10 @@ int sumAutomata(automata* aut1, automata* aut2, automata** res){
 	}
 	for(i = 0; i < (*res)->n_states; i++){
 		if(i < aut1->n_states){
-			// (*res)->init[i] = aut1->init[i];
-			// (*res)->final[i] = aut1->final[i];
 			mpq_set((*res)->init[i], aut1->init[i]);
 			mpq_set((*res)->final[i], aut1->final[i]);
 		}else{
 			l = i - aut1->n_states;
-			// (*res)->init[i] = aut2->init[l];
-			// (*res)->final[i] = aut2->final[l];
 			mpq_set((*res)->init[i],  aut2->init[l]);
 			mpq_set((*res)->final[i], aut2->final[l]);
 		}
@@ -1144,7 +983,6 @@ int printAutomata(automata* aut, FILE* fp_log){
 		fprintf(fp_log,"\ndelta[%c]:\n", aut->alphabet[i]);
 		for(j = 0; j < aut->n_states; j++){
 			for(k = 0; k < aut->n_states; k++){
-				// fprintf(fp_log,"%.10lf ", aut->matrices[i][j][k]);
 				mpq_out_str(fp_log, 10, aut->matrices[i][j][k]);
 				fprintf(fp_log, " ");
 			}
@@ -1154,7 +992,6 @@ int printAutomata(automata* aut, FILE* fp_log){
 	}
 	fprintf(fp_log,"Init:\n");
 	for(i = 0; i < aut->n_states; i++){
-		//fprintf(fp_log,"%.10lf ",aut->init[i]);
 		mpq_out_str(fp_log, 10, aut->init[i]);
 		fprintf(fp_log, " ");
 
@@ -1163,7 +1000,6 @@ int printAutomata(automata* aut, FILE* fp_log){
 
 	fprintf(fp_log,"Final:\n");
 	for(i = 0; i < aut->n_states; i++){
-		//fprintf(fp_log,"%.10lf ",aut->final[i]);
 		mpq_out_str(fp_log, 10, aut->final[i]);
 		fprintf(fp_log, " ");
 	}

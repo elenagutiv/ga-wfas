@@ -36,7 +36,8 @@ int generate(population* oldpop, population** children, automata aut, FILE* fp_l
 int crossover(individual parentA, individual parentB, individual* childA, individual* childB, automata aut, hashedWord** hashTable);
 int mutate(population* oldpop, automata aut, individual* argmax, hashedWord** hashTable);
 int mutateIndividual(individual* child, automata aut, hashedWord** hashTable);
-int compatibleSNUCrossover(char* parentAgens, char* parentBgens, int* resindexA, int* resindexB, mpq_t* childrenAfitness, mpq_t* childrenBfitness, automata aut, hashedWord** hashTable);
+int SNUCrossover(individual parentA, individual parentB, individual* childA, individual* childB, automata aut, hashedWord** hashTable);
+int copyCrossover(individual parentA, individual parentB, individual* childA, individual* childB, automata aut, hashedWord** hashTable);
 int prune(population** newpop, population* oldpop, population* children, automata aut, int flag_pcp, FILE* fp_log, hashedWord** hashTable);
 int evaluate(population pop, individual* argmax);
 static int orderPopulation(population* pop);
