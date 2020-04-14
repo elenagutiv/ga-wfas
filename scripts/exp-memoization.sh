@@ -29,7 +29,7 @@ do
 			else
 				./main "$file" "memo" "20" "7" "../res/ga/random/exp-memoization/memo/$res_file"
 			fi
-		./main "$file" "memo" "20" "../res/ga/random/exp-memoization/no-memo/$res_file"
+		./main "$file" "memo" "20" "1" "../res/ga/random/exp-memoization/no-memo/$res_file"
 		;;
 		6)	if (( $n_states > 12 ))
 			then
@@ -37,7 +37,7 @@ do
 			else
 				./main "$file" "memo" "20" "6" "../res/ga/random/exp-memoization/memo/$res_file"
 			fi
-		./main "$file" "memo" "20" "../res/ga/random/exp-memoization/no-memo/$res_file"
+		./main "$file" "memo" "20" "1" "../res/ga/random/exp-memoization/no-memo/$res_file"
 		;;
 		10)	if (( $n_states > 12 ))
 			then
@@ -45,7 +45,7 @@ do
 			else
 				./main "$file" "memo" "20" "5" "../res/ga/random/exp-memoization/memo/$res_file"
 			fi
-		./main "$file" "memo" "20" "../res/ga/random/exp-memoization/no-memo/$res_file"
+		./main "$file" "memo" "20" "1" "../res/ga/random/exp-memoization/no-memo/$res_file"
 		esac
 	done
 done

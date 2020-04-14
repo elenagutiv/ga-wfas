@@ -97,7 +97,7 @@ void freePopulation(population* pop){
 }
 
 
-int calcFitness(population* pop, automata aut, int flag_pcp, hashedWord** hashTable){
+int calcFitness(population* pop, automata aut, hashedWord** hashTable){
 
 	int i;
 	mpq_t zero;
@@ -193,13 +193,13 @@ int generate(population* oldpop, population** children, automata aut, FILE* fp_l
 	return 0;
 }
 
-int prune(population** newpop, population* oldpop, population* children, automata aut, int flag_pcp, FILE* fp_log, hashedWord** hashTable){
+int prune(population** newpop, population* oldpop, population* children, automata aut, FILE* fp_log, hashedWord** hashTable){
 
 	int i, index, j, k;
 	int n_children, n_old;
 
 	newPopulation(newpop, POPULATION_SIZE, (oldpop->generations + 1));
-	calcFitness(children, aut, flag_pcp, hashTable);
+	calcFitness(children, aut, hashTable);
 
 	fprintf(fp_log, "Children:\n");
     printPopulation(*children, fp_log);

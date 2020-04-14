@@ -1,5 +1,5 @@
 # Genetic Algorithm for the Weight Maximization Problem on Weighted Automata
-We propose a **genetic-algorithm-based metaheuristic** to approximate the so-called *Weighted Maximization Problem (WMP)*, i.e., the problem of computing **the word with the highest weight** on a weighted automata with weights over the rationals.
+We propose a **genetic-algorithm-based metaheuristic** to approximate the so-called *Weighted Maximization Problem (WMP)*, i.e., the problem of computing **the word with the highest weight** on a weighted automata with weights over the rationals [4].
 Since the WMP is an undecidable problem [3], we look at the problem that results from bounding the length of the words in the search space by a fixed value k ≥ 1.
 We call the later problem the *Bounded Weight Maximization Problem (WBMP)*  and this is the question our algorithm approximates.
 
@@ -15,6 +15,8 @@ For the lookup table implementation we use uthash.h [2], a header file written i
 
 [3] *Azaria Paz. 1971. Introduction to Probabilistic Automata (Computer Science and Applied Mathematics). Academic Press, Inc., Orlando, FL, USA.*
 
+[4] *E. Gutiérrez, T. Okudono, M. Waga and I. Hasuo. 2020. Genetic Algorithm for the Weighted Maximization Problem on Weighted Automata. To appear in GECCO 2020. An extended version can be found soon in arXiv.*
+
 # Folders
 - bin: execution files
 - inc: header files
@@ -26,19 +28,37 @@ For the lookup table implementation we use uthash.h [2], a header file written i
 - test: benchmarks for experiments
 
 # General
-Broadly speaking, the algorithm takes as input a WFA matrix description and a positive value k that represents the bound in the length of words that are searched.
-Further parameters relative to the genetic algorithm and experiment specification can be introduced in the right format by command line or using the header file inc/params.h
+We strongly recommend to read the extended version of our article [4].
+
+Generally speaking, our algorithm takes as input a WFA matrix description and a value k ≥ 1 that represents the bound in the length of words that are searched.
+The WFA matrix description is provided in .txt format (examples can be found in tests/).
+The natural value k and other parameters relative to the genetic algorithm and experiment specification can be introduced in the right format by command line or modifying the header file inc/params.h.
+
+A demo can  be run as follows:
+
+    ./main <input_file.txt> bwmp <k_value> <size_hash_block>
+
+This line shows how to run our algorithm on mode 'bwmp', i.e., it will approximate a solution of the BWMP instance given by 'input_file.txt' and k = 'k_value'.
+The maximum block size of the hash table will be set up to 'size_hash_block'.
+The output of the algorithm will be shown in stdout.
+Additionally a log file (log.txt) can be inspected for further information of the execution.
+
+For instance, run:
+
+    ./main ../tests/random/Random/1-abcdef-9.txt bwmp 20 6
+
 
 # Experiments
 The following experiments can be carried out using our tool and the set of benchmarks *Random*, in the folder tests/random/Random.
-For further details on these experiments you can read our work on this problem, which will be soon available online and referenced in this repository.
-Prior to performing the experiments, execute the following commands in the command line inside the folder 'ga-wfas':
+See [4] for further details on these experiments.
+
+Please, execute the following commands in the command line inside the folder 'ga-wfas' to create the directories obj/, plots/ and res/, and needed subdirectories inside these.
 
     make env
 
-
 ## Genetic Algorithm vs Random Search experiment
 This experiment compares our genetic-algorithm-based metaheuristic against random search for approximating a solution to the WMP.
+It uses the set of benchmarks located in tests/random/Random.
 We perform the comparison by plotting an histogram for each procedure and test case.
 The histogram represents the distribution of weights observed by the two procedures.
 
@@ -65,6 +85,7 @@ Please, change the value of variable `N_SAMPLES` in plotting-comparison.py to th
 
 ## Memoization Experiment
 This experiment compares the use of a simple memoization technique for matrix multiplication operations to improve the algorithm efficiency against a no-memoization version of the algorithm.
+It uses the set of benchmarks located in tests/random/Random.
 We perform the comparison in terms of the number of words processed by the two versions.
 
 Write the following commands in the command line inside the folder  'ga-wfas'.
@@ -120,7 +141,7 @@ Please, change the value of variable `N_SAMPLES` in plotting-bf-search.py to the
 
 # Case of study
 This experiment shows a case of study of the application of our tool for detecting misclassified input sequences in a Recurrent Neural Network (RNN).
-We use our algorithm in combination with the procedure that extracts a WFA from a given RNN [4] to estimate the error between the extracted WFA and the WFA that describes the specification of the RNN over a bounded-length set of words.
+We use our algorithm in combination with the procedure that extracts a WFA from a given RNN [5] to estimate the error between the extracted WFA and the WFA that describes the specification of the RNN over a bounded-length set of words.
 This yields to an estimation of the error together with an evidence of why the network is not properly approximating its specification.
 Given a WFA A_R (described in tests/paren/paren.txt) corresponding to the extracted WFA from a given RNN, and the specification of the RNN, the WFA A_E (described in tests/paren/spec.txt), we compute the maximum between the weight of the highest-weighted word of (A_R - A_E) and (A_E - A_R) over a bounded-length set of words.
 
@@ -140,12 +161,8 @@ To process the data of the experiment to create a plot, run:
 
 The resulting plot (.pdf) is in plots/paren/exp-paren/
 
-[4] *Takamasa Okudono, Masaki Waga, Taro Sekiyama, and Ichiro Hasuo. 2019. Weighted Automata Extraction from Recurrent Neural Networks via Regression on State Spaces. AAAI 2020, to appear. CoRR abs/1904.02931 (2019).*
+[5] *Takamasa Okudono, Masaki Waga, Taro Sekiyama, and Ichiro Hasuo. 2019. Weighted Automata Extraction from Recurrent Neural Networks via Regression on State Spaces. AAAI 2020, to appear. CoRR abs/1904.02931 (2019).*
 
-# Updates
-- Only *one* compatibility try is performed. This value is fixed and non-modifiable.
-- TNU procedure removed
-TODO:
-- SNU property in params is ignores -> remove
-- remove deprecated SNUCrossover
-- Check SNU comp works
+### Contact
+For questions, write to elena.gutierrez@imdea.org
+

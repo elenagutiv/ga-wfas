@@ -13,7 +13,7 @@ typedef struct{
 	mpq_t* final;
 } automata;
 
-int initialization(automata** aut, char* filename, char* filename2, FILE* fp_log, char*** f1, char*** f2);
+int initialization(automata** aut, char* filename, char* filename2, FILE* fp_log);
 int initAutomataFromInput(char* filename, automata** aut);
 int initAutomataFromPCPInstance(char* filename, automata** res, FILE* fp_log, char*** f1, char***);
 int initAutomataFromMultipleInput(char* filename, char* filename2, automata** res, FILE* fp_log);

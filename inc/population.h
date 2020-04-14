@@ -27,7 +27,7 @@ static int newPopulation (population** pop, int size, int generations);
 int newIndividual(individual** indiv);
 void freeIndividual(individual* indiv);
 void freePopulation(population* pop);
-int calcFitness(population* pop, automata automata, int flag_pcp, hashedWord** hashTable);
+int calcFitness(population* pop, automata automata, hashedWord** hashTable);
 int naturalSelection(population *pop);
 int getIndexRoulette(int pop_size);
 int* getIndicesRouletteNoReps(int pop_size, int n);
@@ -38,7 +38,7 @@ int mutate(population* oldpop, automata aut, individual* argmax, hashedWord** ha
 int mutateIndividual(individual* child, automata aut, hashedWord** hashTable);
 int SNUCrossover(individual parentA, individual parentB, individual* childA, individual* childB, automata aut, hashedWord** hashTable);
 int copyCrossover(individual parentA, individual parentB, individual* childA, individual* childB, automata aut, hashedWord** hashTable);
-int prune(population** newpop, population* oldpop, population* children, automata aut, int flag_pcp, FILE* fp_log, hashedWord** hashTable);
+int prune(population** newpop, population* oldpop, population* children, automata aut, FILE* fp_log, hashedWord** hashTable);
 int evaluate(population pop, individual* argmax);
 static int orderPopulation(population* pop);
 static int quicksortPopulation(population* pop, int first,int last);

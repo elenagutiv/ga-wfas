@@ -56,7 +56,7 @@ int main(int argc, char** argv)
 
 	
 
-	if(initialization(&aut, input, specification, fp_log, NULL, NULL) == -1){
+	if(initialization(&aut, input, specification, fp_log) == -1){
 	  return -1;
 	};
 

@@ -21,6 +21,7 @@ double totalTime_matrixMult = 0.0;
 
 clock_t start_algorithm;
 
+
 int main(int argc, char** argv)
 {
    int i;
@@ -46,12 +47,7 @@ int main(int argc, char** argv)
    population* pop;
    population* children;
    int halt = 0;
-   int flag_pcp;
-   char** f1;
-   char** f2;
-   char* word1;
-   char* word2;
-   int diff;
+
    mpq_t comp;
    mpq_init(comp);
 
@@ -59,7 +55,9 @@ int main(int argc, char** argv)
    FILE* fp_log;
    fp_log = fopen(LOG_FILE, "w");
 
-   fp_times = (fopen(argv[5], "w"));
+   if(!strcmp(type, "comparison") || !strcmp(type, "difference") || !strcmp(type, "difference")){
+      fp_times = (fopen(argv[5], "w"));
+   }
 
    fprintf(fp_log, "******************************\n******************************\n");
    fprintf(fp_log, "Experiment %s\n", input);
@@ -77,7 +75,7 @@ int main(int argc, char** argv)
    clock_t start_runtime;
    clock_t end_runtime;
 
-   if(initialization(&aut, input, specification, fp_log, &f1, &f2) == -1){
+   if(initialization(&aut, input, specification, fp_log) == -1){
       return -1;
    };
 
@@ -91,7 +89,7 @@ int main(int argc, char** argv)
    start_algorithm = clock();
    if(initPopulation(&pop, *aut, &hashTable) == -1){ return -1;};
 
-   calcFitness(pop, *aut, flag_pcp, &hashTable);
+   calcFitness(pop, *aut, &hashTable);
 
    evaluate(*pop, argmax);
    halt = 0; // # repeated argmax is not considered to halt, otherwise write !halt in AND condition in while
@@ -107,7 +105,7 @@ int main(int argc, char** argv)
       generate(pop, &children, *aut, fp_log, &hashTable);
       mutate(pop, *aut, argmax, &hashTable); //Only mutates the old generation (except from the argmax). Children mutate in next generations
 
-      prune(&pop, pop, children, *aut, flag_pcp, fp_log, &hashTable);
+      prune(&pop, pop, children, *aut, fp_log, &hashTable);
 
       fprintf(fp_log, "Next generation:\n");
 
@@ -117,7 +115,7 @@ int main(int argc, char** argv)
 
       evaluate(*pop, argmax);
       halt = 0;
-      fprintf(fp_log,"[Gen: %d][n_reps = %d] argmax found is %s and weight: %.25lf\n", pop->generations, n_repeated, argmax->gens, mpq_get_d(argmax->fitness));
+      fprintf(fp_log,"Highest-weight word found is %s and weight: %.25lf generation: %d][n_reps = %d] \n", argmax->gens, mpq_get_d(argmax->fitness), pop->generations, n_repeated);
       fflush(fp_log);
 
       time_algorithm = ((double)(clock() - start_algorithm) / CLOCKS_PER_SEC);
@@ -127,7 +125,14 @@ int main(int argc, char** argv)
       fprintf(fp_times, "%.10lf\t%.25lf\t%s\n", time_algorithm, mpq_get_d(argmax->fitness), argmax->gens);
    }
 
-   printf("Finish\n");
+   if(!strcmp(type, "bwmp")){
+      printf("Highest-weight word found is %s and weight: %.25lf [# of generations: %d][# of repetitions = %d][Timeout (s): %d] \n",  argmax->gens, mpq_get_d(argmax->fitness),pop->generations, n_repeated, TIMEOUT);
+      printf("Finished!\nMore info about the execution might be found at log.txt\n");
+
+   }else{
+      printf("Finished!\n");
+   }
+   
    end_runtime = clock();
    
    double total_runtime = ((double) (end_runtime - start_runtime)) / CLOCKS_PER_SEC;
@@ -141,12 +146,12 @@ int main(int argc, char** argv)
       fprintf(fp_times, "Time-fraction-init-hash\t%.2lf\n", (total_inithash/total_runtime));
    }
 
-   
-
    fprintf(fp_log, "******************************\n******************************\n");
    fclose(fp_log);
 
-   fclose(fp_times);
+   if(!strcmp(type, "comparison") || !strcmp(type, "difference") || !strcmp(type, "difference")){
+      fclose(fp_times);
+   }
    
    freeIndividual(argmax);
    freePopulation(pop);

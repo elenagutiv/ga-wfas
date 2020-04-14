@@ -13,11 +13,11 @@ extern unsigned long long n_potential_matrixMult;
 
 extern char* type;
 
-int initialization(automata** aut, char* filename, char* filename2, FILE* fp_log, char*** f1, char*** f2){
+int initialization(automata** aut, char* filename, char* filename2, FILE* fp_log){
 	if(type == NULL){
 		printf("Error: introduce a valid parameter pcp or aut.\n");
 		return -1;
-	}else if(!strcmp(type, "comparison") || !strcmp(type, "memo") || !strcmp(type, "bf-search")){
+	}else if(!strcmp(type, "comparison") || !strcmp(type, "memo") || !strcmp(type, "bf-search") || !strcmp(type, "bwmp")){
 		initAutomataFromInput(filename, aut);
 		return 0;
 
@@ -26,7 +26,7 @@ int initialization(automata** aut, char* filename, char* filename2, FILE* fp_log
 		return 0;
 
 	}else{
-		printf("Error: wrong parameter, try pcp, aut or difference.\n");
+		printf("Error: wrong parameter, try bwmp for a simple demo.\n");
 		return -1;
 	}
 
