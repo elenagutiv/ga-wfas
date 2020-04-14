@@ -153,7 +153,9 @@ Write the following commands in the command line from the folder containing 'ga-
     cd scripts
     ./exp-case-study.sh
 
-When the execution of the later script finishes, results will be stored in /ga-wfas/res/ga/paren/exp-paren/ in two files, one corresponding to (A_R - A_E) and the other one corresponding to (A_E - A_R)
+When the execution of the later script finishes, results will be stored in /ga-wfas/res/ga/paren/exp-paren/ in two files, one corresponding to ![formula](https://render.githubusercontent.com/render/math?math=(A_R%20-%20A_E))
+ and the other one corresponding to ![formula](https://render.githubusercontent.com/render/math?math=(A_E%20-%20A_R))
+
 
 To process the data of the experiment to create a plot, run:
 
@@ -175,5 +177,3 @@ To additionally remove /res, use:
 ### Contact
 email: elena.gutierrez[at]imdea.org
 
-## Trying
-![formula](https://render.githubusercontent.com/render/math?math=A_E%20-%20A_R)
