@@ -32,7 +32,7 @@ We strongly recommend to read the extended version of our article [4].
 
 Generally speaking, our algorithm takes as input a WFA matrix description and a value k ≥ 1 that represents the bound in the length of words that are searched.
 The WFA matrix description is provided in .txt format (examples can be found in tests/).
-The natural value k and other parameters relative to the genetic algorithm and experiment specification can be introduced in the right format by command line or modifying the header file inc/params.h.
+The natural value k and other parameters relative to the genetic algorithm and experiment specification can be introduced in the right format by command line or modifying the header file 'inc/params.h'.
 
 A demo can  be run as follows:
 
@@ -41,7 +41,7 @@ A demo can  be run as follows:
 This line shows how to run our algorithm on mode 'bwmp', i.e., it will approximate a solution of the BWMP instance given by 'input_file.txt' and k = 'k_value'.
 The maximum block size of the hash table will be set up to 'size_hash_block'.
 The output of the algorithm will be shown in stdout.
-Additionally a log file (log.txt) can be inspected for further information of the execution.
+Additionally a log file ('log.txt') can be inspected for further information of the execution.
 
 For instance, run:
 
@@ -52,7 +52,7 @@ For instance, run:
 The following experiments can be carried out using our tool and the set of benchmarks *Random*, in the folder tests/random/Random.
 See [4] for further details on these experiments.
 
-Please, execute the following commands in the command line inside the folder 'ga-wfas' to create the directories obj/, plots/ and res/, and needed subdirectories inside these.
+Please, execute the following commands in the command line inside the folder ga-wfas/ to create the directories obj/, plots/ and res/, and needed subdirectories inside these.
 
     make env
 
@@ -62,7 +62,7 @@ It uses the set of benchmarks located in tests/random/Random.
 We perform the comparison by plotting an histogram for each procedure and test case.
 The histogram represents the distribution of weights observed by the two procedures.
 
-Write the following commands in the command line inside the folder 'ga-wfas'.
+Write the following commands in the command line inside the folder ga-wfas.
 
     make clean
     make
@@ -71,7 +71,7 @@ Write the following commands in the command line inside the folder 'ga-wfas'.
     ./exp-comparison.sh
     
  **Note:** 
-- Fix variable `N_SAMPLES` in ./exp-comparison.sh as desired to repeat each execution `N_SAMPLES` times.
+- Fix the variable `N_SAMPLES` in ./exp-comparison.sh as desired to repeat each execution `N_SAMPLES` times.
 - Beware of space on your machine. The size of each file generated is 15-70MB.  
 
 When the execution of `exp-comparison.sh` finishes, results can be found in ga-wfas/res/ga/random/exp-comparison/ and ga-wfas/res/random-search/random/exp-comparison/ for each algorithm ga and random search, respectively.
@@ -88,7 +88,7 @@ This experiment compares the use of a simple memoization technique for matrix mu
 It uses the set of benchmarks located in tests/random/Random.
 We perform the comparison in terms of the number of words processed by the two versions.
 
-Write the following commands in the command line inside the folder  'ga-wfas'.
+Write the following commands in the command line inside the folder ga-wfas.
 
     make clean
     make
@@ -119,7 +119,7 @@ For this, we choose an appropiate length bound k, that makes this search feasibl
 This value will vary depending on the size of the alphabet of the input WFA.
 In addition, we run our algorithm on the same set of benchmarks and the same length bound k.
 
-To repeat this experiment, run the following commands in the folder 'ga-wfas'
+To repeat this experiment, run the following commands in the folder ga-wfas:
 
     make clean
     make
@@ -129,7 +129,7 @@ To repeat this experiment, run the following commands in the folder 'ga-wfas'
 
  **Note:** 
 - Fix variable `N_SAMPLES` in ./exp-comparison.sh as desired to repeat each execution `N_SAMPLES` times.
--Beware of the space on your machine.
+- Beware of the space on your machine.
 
 When the execution of exp-bf-search.sh finishes, results can be found in ga-wfas/res/ga/random/exp-bf-search/
 
@@ -141,11 +141,12 @@ Please, change the value of variable `N_SAMPLES` in plotting-bf-search.py to the
 
 # Case of study
 This experiment shows a case of study of the application of our tool for detecting misclassified input sequences in a Recurrent Neural Network (RNN).
-We use our algorithm in combination with the procedure that extracts a WFA from a given RNN [5] to estimate the error between the extracted WFA and the WFA that describes the specification of the RNN over a bounded-length set of words.
+We use our algorithm in combination with the procedure that extracts a WFA from a given RNN [5] to estimate the error between the extracted WFA ![formula](https://render.githubusercontent.com/render/math?math=A_R)
+ and the WFA ![formula](https://render.githubusercontent.com/render/math?math=A_E) that describes the specification of the RNN  over a bounded-length set of words.
 This yields to an estimation of the error together with an evidence of why the network is not properly approximating its specification.
-Given a WFA A_R (described in tests/paren/paren.txt) corresponding to the extracted WFA from a given RNN, and the specification of the RNN, the WFA A_E (described in tests/paren/spec.txt), we compute the maximum between the weight of the highest-weighted word of (A_R - A_E) and (A_E - A_R) over a bounded-length set of words.
+Given a WFA ![formula](https://render.githubusercontent.com/render/math?math=A_R) (described in tests/paren/paren.txt) corresponding to the extracted WFA from a given RNN, and a WFA ![formula](https://render.githubusercontent.com/render/math?math=A_E), describing the specification of the RNN (in tests/paren/spec.txt), we compute the maximum between the weight of the highest-weighted word of ![formula](https://render.githubusercontent.com/render/math?math=(A_R%20-%20A_E)) and ![formula](https://render.githubusercontent.com/render/math?math=(A_E%20-%20A_R)) over a bounded-length set of words.
 
-Write the following commands in the command line from the folder containing 'ga-wfas'
+Write the following commands in the command line from the folder containing ga-wfas:
 
     cd ga-wfas/
     make clean
