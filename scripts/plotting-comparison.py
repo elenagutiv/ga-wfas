@@ -120,13 +120,13 @@ def name(sample):
 	states = sample.split("-")[2]
 	return letter, alph, states
 
-ga_path = "../res/ga/newrandp/exp-comparison/"
-rand_path = "../res/random-search/newrandp/exp-comparison/"
+ga_path = "../res/ga/random/exp-comparison/"
+rand_path = "../res/random-search/random/exp-comparison/"
 
 full_path_sample_list = glob.glob(os.path.join(os.getcwd(), ga_path, "*.txt"))
 sample_list = [elem.split("/")[-1] for elem in full_path_sample_list]
 
-file_path = "../tests/newrandp/Random/"
+file_path = "../tests/random/Random/"
 
 full_path_file_list = glob.glob(os.path.join(os.getcwd(), file_path, "*.txt"))
 file_list = [elem.split("/")[-1] for elem in full_path_file_list]
@@ -223,6 +223,6 @@ for sample in sample_list:
 
 	plt.grid(True)
 	plt.legend(loc='upper left', shadow=True, ncol=1)
-	print "Creating "+ "plots/newrandp/exp-comparison/"+letter+"-"+alph+"-"+states+"-"+sample[-5]+".pdf"
-	plt.savefig("../plots/newrandp/exp-comparison/"+letter+"-"+alph+"-"+states+"-"+sample[-5]+".pdf")
+	print "Creating "+ "plots/random/exp-comparison/"+letter+"-"+alph+"-"+states+"-"+sample[-5]+".pdf"
+	plt.savefig("../plots/random/exp-comparison/"+letter+"-"+alph+"-"+states+"-"+sample[-5]+".pdf")
 	plt.close()

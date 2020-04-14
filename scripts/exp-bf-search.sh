@@ -5,7 +5,7 @@ cd ../bin/
 
 N_SAMPLES=10 # Set up this value to 10 to reproduce experiments
 
-for file in ../tests/newrandp/Random/*.txt
+for file in ../tests/random/Random/*.txt
 do
 	
 	for n in $(seq 1 $N_SAMPLES)
@@ -24,20 +24,20 @@ do
 
 		4)	if (( $n_states < 13 ))
 			then
-				/bf-search "$file" "bf-search" "14" "7" "../res/bf-search/newrandp/exp-bf-search/$res_file"
-				./main "$file" "bf-search" "14" "7" "../res/ga/newrandp/exp-bf-search/$res_file"
+				/bf-search "$file" "bf-search" "14" "7" "../res/bf-search/random/exp-bf-search/$res_file"
+				./main "$file" "bf-search" "14" "7" "../res/ga/random/exp-bf-search/$res_file"
 			fi
 		;;
 		6)	if (( $n_states < 13 ))
 			then
-				./bf-search "$file" "bf-search" "11" "6" "../res/bf-search/newrandp/exp-bf-search/$res_file"
-				./main "$file" "bf-search" "11" "6" "../res/ga/newrandp/exp-bf-search/$res_file"
+				./bf-search "$file" "bf-search" "11" "6" "../res/bf-search/random/exp-bf-search/$res_file"
+				./main "$file" "bf-search" "11" "6" "../res/ga/random/exp-bf-search/$res_file"
 			fi
 		;;
 		10)	if (( $n_states < 13 ))
 			then
-				./bf-search "$file" "bf-search" "9" "5" "../res/bf-search/newrandp/exp-bf-search/$res_file"
-				./main "$file" "bf-search" "9" "5" "../res/ga/newrandp/exp-bf-search/$res_file"
+				./bf-search "$file" "bf-search" "9" "5" "../res/bf-search/random/exp-bf-search/$res_file"
+				./main "$file" "bf-search" "9" "5" "../res/ga/random/exp-bf-search/$res_file"
 			fi
 		esac
 	done

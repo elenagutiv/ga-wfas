@@ -100,16 +100,16 @@ def name(sample):
 	return letter, alph, states
 
 
-memo_path = "../res/ga/newrandp/exp-memoization/memo/"
-nomemo_path = "../res/ga/newrandp/exp-memoization/no-memo/"
+memo_path = "../res/ga/random/exp-memoization/memo/"
+nomemo_path = "../res/ga/random/exp-memoization/no-memo/"
 
-memo_word_path = "../res/ga/newrandp/exp-memoization/word-memo/"
-nomemo_word_path = "../res/ga/newrandp/exp-memoization/word-no-memo/"
+memo_word_path = "../res/ga/random/exp-memoization/word-memo/"
+nomemo_word_path = "../res/ga/random/exp-memoization/word-no-memo/"
 
 full_path_sample_list = glob.glob(os.path.join(os.getcwd(), memo_path, "*.txt"))
 sample_list = [elem.split("/")[-1] for elem in full_path_sample_list]
 
-file_path = "../tests/newrandp/Random/"
+file_path = "../tests/random/Random/"
 
 full_path_file_list = glob.glob(os.path.join(os.getcwd(), file_path, "*.txt"))
 file_list = [elem.split("/")[-1] for elem in full_path_file_list]
