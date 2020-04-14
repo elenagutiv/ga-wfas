@@ -62,9 +62,7 @@ clean:
 	rm -rf $(BINDIR)
 	rm -rf $(PLOTSDIR)
 
-clean-res:
-	echo "Are you sure you want to remove res directory? If yes: type clean-force"
-clean-force:
+clean-all:
 	rm -rf $(OBJDIR)
 	rm -rf $(BINDIR)
 	rm -rf $(PLOTSDIR)

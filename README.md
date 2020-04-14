@@ -163,6 +163,17 @@ The resulting plot (.pdf) is in plots/paren/exp-paren/
 
 [5] *Takamasa Okudono, Masaki Waga, Taro Sekiyama, and Ichiro Hasuo. 2019. Weighted Automata Extraction from Recurrent Neural Networks via Regression on State Spaces. AAAI 2020, to appear. CoRR abs/1904.02931 (2019).*
 
-### Contact
-For questions, write to elena.gutierrez@imdea.org
+### Clean options
+To remove the folders bin/, obj/ and plots/, use:
 
+    clean
+
+To additionally remove /res, use:
+
+    clean-all
+
+### Contact
+email: elena.gutierrez[at]imdea.org
+
+## Trying
+![formula](https://render.githubusercontent.com/render/math?math=A_E%20-%20A_R)
