@@ -32,6 +32,10 @@ Further parameters relative to the genetic algorithm and experiment specificatio
 # Experiments
 The following experiments can be carried out using our tool and the set of benchmarks *Random*, in the folder tests/newrandp/Random.
 For further details on these experiments you can read our work on this problem, which will be soon available online and referenced in this repository.
+Prior to performing the experiments, execute the following commands in the command line inside the folder 'ga-wfas':
+
+    make env
+
 
 ## Genetic Algorithm vs Random Search experiment
 This experiment compares our genetic-algorithm-based metaheuristic against random search for approximating a solution to the WMP.

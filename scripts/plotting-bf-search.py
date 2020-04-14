@@ -113,6 +113,6 @@ for sample in sample_list:
 
 	plt.grid(True)
 	plt.legend(loc='lower right', shadow=True, ncol=1)
-	print "Creating "+ "plots/newrandp/exp-comparison/"+letter+"-"+alph+"-"+states+"-"+sample[-5]+".pdf"
-	plt.savefig("../plots/newrandp/exp-comparison/"+letter+"-"+alph+"-"+states+"-"+sample[-5]+".pdf")
+	print "Creating "+ "plots/newrandp/exp-bf-search/"+letter+"-"+alph+"-"+states+"-"+sample[-5]+".pdf"
+	plt.savefig("../plots/newrandp/exp-bf-search/"+letter+"-"+alph+"-"+states+"-"+sample[-5]+".pdf")
 	plt.close()

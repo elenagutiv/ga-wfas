@@ -24,19 +24,19 @@ do
 
 		4)	if (( $n_states < 13 ))
 			then
-				/bf-search "$file" "bf-search" "14" "7" "../res/bf-search/newrandp/$res_file"
+				/bf-search "$file" "bf-search" "14" "7" "../res/bf-search/newrandp/exp-bf-search/$res_file"
 				./main "$file" "bf-search" "14" "7" "../res/ga/newrandp/exp-bf-search/$res_file"
 			fi
 		;;
 		6)	if (( $n_states < 13 ))
 			then
-				./bf-search "$file" "bf-search" "11" "6" "../res/bf-search/newrandp/$res_file"
+				./bf-search "$file" "bf-search" "11" "6" "../res/bf-search/newrandp/exp-bf-search/$res_file"
 				./main "$file" "bf-search" "11" "6" "../res/ga/newrandp/exp-bf-search/$res_file"
 			fi
 		;;
 		10)	if (( $n_states < 13 ))
 			then
-				./bf-search "$file" "bf-search" "9" "5" "../res/bf-search/newrandp/$res_file"
+				./bf-search "$file" "bf-search" "9" "5" "../res/bf-search/newrandp/exp-bf-search/$res_file"
 				./main "$file" "bf-search" "9" "5" "../res/ga/newrandp/exp-bf-search/$res_file"
 			fi
 		esac
