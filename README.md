@@ -30,7 +30,7 @@ Broadly speaking, the algorithm takes as input a WFA matrix description and a po
 Further parameters relative to the genetic algorithm and experiment specification can be introduced in the right format by command line or using the header file inc/params.h
 
 # Experiments
-The following experiments can be carried out using our tool and the set of benchmarks *Random*, in the folder tests/newrandp/Random.
+The following experiments can be carried out using our tool and the set of benchmarks *Random*, in the folder tests/random/Random.
 For further details on these experiments you can read our work on this problem, which will be soon available online and referenced in this repository.
 
 ## Genetic Algorithm vs Random Search experiment
@@ -50,7 +50,7 @@ Write the following commands in the command line inside the folder 'ga-wfas'.
 - Fix variable `N_SAMPLES` in ./exp-comparison.sh as desired to repeat each execution `N_SAMPLES` times.
 - Beware of space on your machine. The size of each file generated is 15-70MB.  
 
-When the execution of `exp-comparison.sh` finishes, results can be found in ga-wfas/res/ga/newrandp/exp-comparison/ and ga-wfas/res/random-search/newrandp/exp-comparison/ for each algorithm ga and random search, respectively.
+When the execution of `exp-comparison.sh` finishes, results can be found in ga-wfas/res/ga/random/exp-comparison/ and ga-wfas/res/random-search/random/exp-comparison/ for each algorithm ga and random search, respectively.
 
 To process the results of the experiment, run from the folder scripts:
 
@@ -74,7 +74,7 @@ Write the following commands in the command line inside the folder  'ga-wfas'.
 - Fix variable `N_SAMPLES` in ./exp-memoization.sh as desired to repeat each execution `N_SAMPLES` times.
 - Beware of space on your machine. The size of each file generated is 10-100KB.  
 
-When the execution of exp-memoization.sh finishes, results can be found in ga-wfas/res/ga/newrandp/exp-memoization/
+When the execution of exp-memoization.sh finishes, results can be found in ga-wfas/res/ga/random/exp-memoization/
 There are 2 folders there: 
 - memo/
 - no-memo/
@@ -89,7 +89,7 @@ Please, change the value of variable `N_SAMPLES` in plotting-memoization.py to t
 ## Examples with known maximum weight
 This experiments validates the performance of our algorithm by comparing its solution with the highest weight in the automaton.
 
-To do so, we simply select a subset of 9 benchmarks of Random, located in tests/newrandp/Random-bf-search, and we perform *exhaustive search* to solve the BWMP precisely.
+To do so, we simply select a subset of 9 benchmarks of Random, located in tests/random/Random-bf-search, and we perform *exhaustive search* to solve the BWMP precisely.
 For this, we choose an appropiate length bound k, that makes this search feasible in a reasonable amount of time.
 This value will vary depending on the size of the alphabet of the input WFA.
 In addition, we run our algorithm on the same set of benchmarks and the same length bound k.
@@ -106,7 +106,7 @@ To repeat this experiment, run the following commands in the folder 'ga-wfas'
 - Fix variable `N_SAMPLES` in ./exp-comparison.sh as desired to repeat each execution `N_SAMPLES` times.
 -Beware of the space on your machine.
 
-When the execution of exp-bf-search.sh finishes, results can be found in ga-wfas/res/ga/newrandp/exp-bf-search/
+When the execution of exp-bf-search.sh finishes, results can be found in ga-wfas/res/ga/random/exp-bf-search/
 
 To process the results of the experiment, run:
 

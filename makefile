@@ -8,6 +8,8 @@ BINDIR = bin
 INCDIR = inc
 SRCDIR = src
 OBJDIR = obj
+PLOTSDIR = plots
+RESDIR = res
 
 SRCFILES = $(wildcard $(SRCDIR)/*.c)
 OBJFILES = $(patsubst $(SRCDIR)/%.c,$(OBJDIR)/%.o,$(SRCFILES))
@@ -35,9 +37,35 @@ random-search:
 bf-search: 
 	make $(MAKEFLAG) $(BINDIR)/bf-search	
 
+env:
+	mkdir bin
+	mkdir obj
+	mkdir res
+	cd res; mkdir bf-search; mkdir ga; mkdir random-search;\
+	cd ga/; mkdir random; mkdir paren;\
+	cd random/; mkdir exp-bf-search; mkdir exp-comparison; mkdir exp-memoization;\
+	cd exp-memoization/; mkdir memo/; mkdir no-memo/;\
+	cd ../../paren/; mkdir exp-paren;\
+	cd ../../random-search/; mkdir random;\
+	cd random/; mkdir exp-comparison;\
+	cd ../../bf-search/; mkdir random;\
+	cd random/; mkdir exp-bf-search;\
+	cd ../../../; mkdir plots;\
+	cd plots/; mkdir random; mkdir paren;\
+	cd random; mkdir exp-comparison; mkdir exp-bf-search;\
+	cd ../paren/; mkdir exp-paren	
 
 .PHONY: clean
 
 clean:
-	rm -f $(OBJDIR)/*.o
-	rm -rf $(BINDIR)/*
+	rm -rf $(OBJDIR)
+	rm -rf $(BINDIR)
+	rm -rf $(PLOTSDIR)
+
+clean-res:
+	echo "Are you sure you want to remove res directory? If yes: type clean-force"
+clean-force:
+	rm -rf $(OBJDIR)
+	rm -rf $(BINDIR)
+	rm -rf $(PLOTSDIR)
+	rm -rf $(RESDIR)
