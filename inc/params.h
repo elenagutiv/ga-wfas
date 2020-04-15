@@ -19,7 +19,7 @@
 #define MUTATION_PROB 0.1
 #define EPSILON_SQR 0.0001
 #define MAX_REPEAT 60 // This variable is ignored since the halt variable is assigned to 0 always
-#define TIMEOUT 10// In seconds
+#define TIMEOUT 120// In seconds
 #define LOG_FILE "../log.txt"
 
 #define FLAG_SELECTION_FPS 1
