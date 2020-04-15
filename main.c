@@ -55,7 +55,7 @@ int main(int argc, char** argv)
    FILE* fp_log;
    fp_log = fopen(LOG_FILE, "w");
 
-   if(!strcmp(type, "comparison") || !strcmp(type, "difference") || !strcmp(type, "difference")){
+   if(!strcmp(type, "comparison") || !strcmp(type, "difference") || !strcmp(type, "memo")){
       fp_times = (fopen(argv[5], "w"));
    }
 
@@ -149,7 +149,7 @@ int main(int argc, char** argv)
    fprintf(fp_log, "******************************\n******************************\n");
    fclose(fp_log);
 
-   if(!strcmp(type, "comparison") || !strcmp(type, "difference") || !strcmp(type, "difference")){
+   if(!strcmp(type, "comparison") || !strcmp(type, "difference") || !strcmp(type, "memo")){
       fclose(fp_times);
    }
    
