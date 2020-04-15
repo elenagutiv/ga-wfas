@@ -15,7 +15,7 @@ For the lookup table implementation we use uthash.h [2], a header file written i
 
 [3] *Azaria Paz. 1971. Introduction to Probabilistic Automata (Computer Science and Applied Mathematics). Academic Press, Inc., Orlando, FL, USA.*
 
-[4] *E. Gutiérrez, T. Okudono, M. Waga and I. Hasuo. 2020. Genetic Algorithm for the Weighted Maximization Problem on Weighted Automata. To appear in GECCO 2020. An extended version can be found soon in arXiv.*
+[4] *E. Gutiérrez, T. Okudono, M. Waga and I. Hasuo. 2020. Genetic Algorithm for the Weighted Maximization Problem on Weighted Automata. To appear in GECCO 2020. arXiv: https://arxiv.org/abs/2004.06581.*
 
 # Folders
 - bin: execution files
@@ -154,8 +154,8 @@ Write the following commands in the command line from the folder containing ga-w
     cd scripts
     ./exp-case-study.sh
 
-When the execution of the later script finishes, results will be stored in /ga-wfas/res/ga/paren/exp-paren/ in two files, one corresponding to ![formula](https://render.githubusercontent.com/render/math?math=(A_R%20-%20A_E))
- and the other one corresponding to ![formula](https://render.githubusercontent.com/render/math?math=(A_E%20-%20A_R))
+When the execution of the later script finishes, results will be stored in /ga-wfas/res/ga/paren/exp-paren/ in two files, one corresponding to ![formula](https://render.githubusercontent.com/render/math?math=(A_R%20-%20A_E)),
+ and the other one corresponding to ![formula](https://render.githubusercontent.com/render/math?math=(A_E%20-%20A_R)).
 
 
 To process the data of the experiment to create a plot, run:
