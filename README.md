@@ -1,21 +1,20 @@
 # Genetic Algorithm for the Weight Maximization Problem on Weighted Automata
-We propose a **genetic-algorithm-based metaheuristic** to approximate the so-called *Weighted Maximization Problem (WMP)*, i.e., the problem of computing **the word with the highest weight** on a weighted automata with weights over the rationals [4].
-Since the WMP is an undecidable problem [3], we look at the problem that results from bounding the length of the words in the search space by a fixed value k ≥ 1.
+We propose a **genetic-algorithm-based metaheuristic** to approximate the so-called *Weighted Maximization Problem (WMP)*, i.e., the problem of computing **the word with the highest weight** on a weighted automata with weights over the rationals [1].
+Since the WMP is an undecidable problem [4], we look at the problem that results from bounding the length of the words in the search space by a fixed value k ≥ 1.
 We call the later problem the *Bounded Weight Maximization Problem (WBMP)*  and this is the question our algorithm approximates.
 
 Our algorithm is implemented in the C language. 
 The procedure takes as input the matrix representation of a WFA A and a value k ≥ 1. 
-For the code representation of the weights we use rationals of arbitrary precision by means of the library for arbitrary-precision arithmetic on rational numbers, GMP [1].
-For the lookup table implementation we use uthash.h [2], a header file written in C that implements a hash table for handling C structures.
+For the code representation of the weights we use rationals of arbitrary precision by means of the library for arbitrary-precision arithmetic on rational numbers, GMP [2].
+For the lookup table implementation we use uthash.h [3], a header file written in C that implements a hash table for handling C structures.
 
+[1] *E. Gutiérrez, T. Okudono, M. Waga and I. Hasuo. 2020. Genetic Algorithm for the Weighted Maximization Problem on Weighted Automata. To appear in GECCO 2020. arXiv: https://arxiv.org/abs/2004.06581.*
 
-[1] *The GNU Multiple Precision Arithmetic Library. 1991. GNU Project. (1991). Retrieved January 28, 2020 from gmplib.org.*
+[2] *The GNU Multiple Precision Arithmetic Library. 1991. GNU Project. (1991). Retrieved January 28, 2020 from gmplib.org.*
 
-[2] *Troy D. Hanson and Arthur O’Dwyer. 2006. Uthash. (2006). Retrieved January 28, 2020 from https://troydhanson.github.io/uthash/*
+[3] *Troy D. Hanson and Arthur O’Dwyer. 2006. Uthash. (2006). Retrieved January 28, 2020 from https://troydhanson.github.io/uthash/*
 
-[3] *Azaria Paz. 1971. Introduction to Probabilistic Automata (Computer Science and Applied Mathematics). Academic Press, Inc., Orlando, FL, USA.*
-
-[4] *E. Gutiérrez, T. Okudono, M. Waga and I. Hasuo. 2020. Genetic Algorithm for the Weighted Maximization Problem on Weighted Automata. To appear in GECCO 2020. arXiv: https://arxiv.org/abs/2004.06581.*
+[4] *Azaria Paz. 1971. Introduction to Probabilistic Automata (Computer Science and Applied Mathematics). Academic Press, Inc., Orlando, FL, USA.*
 
 # Folders
 - bin: execution files
@@ -28,7 +27,7 @@ For the lookup table implementation we use uthash.h [2], a header file written i
 - test: benchmarks for experiments
 
 # General
-We strongly recommend to read the extended version of our article [4].
+We strongly recommend to read the extended version of our article [1].
 
 Generally speaking, our algorithm takes as input a WFA matrix description and a value k ≥ 1 that represents the bound in the length of words that are searched.
 The WFA matrix description is provided in .txt format (examples can be found in tests/).
@@ -50,7 +49,7 @@ For instance, run:
 
 # Experiments
 The following experiments can be carried out using our tool and the set of benchmarks *Random*, in the folder tests/random/Random.
-See [4] for further details on these experiments.
+See [1] for further details on these experiments.
 
 Please, execute the following commands in the command line inside the folder ga-wfas/ to create the directories obj/, plots/ and res/, and needed subdirectories inside these.
 
@@ -177,4 +176,5 @@ To additionally remove /res, use:
 
 ### Contact
 email: elena.gutierrez[at]imdea.org
+
 
