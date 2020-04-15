@@ -4,3 +4,4 @@ res/*
 plots/*
 log.txt
 README.txt
+*.DS_Store
