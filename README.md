@@ -1,4 +1,4 @@
-    # Genetic Algorithm for the Weight Maximization Problem on Weighted Automata
+# Genetic Algorithm for the Weight Maximization Problem on Weighted Automata
 We propose a **genetic-algorithm-based metaheuristic** to approximate the so-called *Weighted Maximization Problem (WMP)*, i.e., the problem of computing **the word with the highest weight** on a weighted automata with weights over the rationals [1].
 Since the WMP is an undecidable problem [4], we look at the problem that results from bounding the length of the words in the search space by a fixed value k ≥ 1.
 We call the later problem the *Bounded Weight Maximization Problem (WBMP)*  and this is the question our algorithm approximates.
